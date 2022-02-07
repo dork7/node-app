@@ -18,4 +18,8 @@ module.exports = {
         ? process.env.MONGO_URI_TESTS
         : process.env.MONGO_URI,
   },
+  nodemailerEmail: process.env.NODEMAILER_EMAIL,
+  emailClientID: process.env.CLIENT_ID,
+  emailClientSecret: process.env.CLIENT_SECRET,
+  emailRefreshToken: process.env.REFRESH_TOKEN,
 };
