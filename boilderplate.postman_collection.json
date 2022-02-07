@@ -1,0 +1,56 @@
+{
+	"info": {
+		"_postman_id": "92fd2a04-e3f4-423c-a0f5-d6d480ab636f",
+		"name": "boilderplate",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getUsers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/v1/users",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"lol123\",\r\n    \"email\" :\"testmain@mail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/v1/users",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
