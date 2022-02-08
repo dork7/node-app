@@ -19,6 +19,7 @@
     "googleapis": "^95.0.0",
     "helmet": "^5.0.2",
     "http-status": "^1.5.0",
+    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "method-override": "^3.0.0",
     "mongoose": "^5.12.14",

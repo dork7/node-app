@@ -22,4 +22,5 @@ module.exports = {
   emailClientID: process.env.CLIENT_ID,
   emailClientSecret: process.env.CLIENT_SECRET,
   emailRefreshToken: process.env.REFRESH_TOKEN,
+  jwtSecret: process.env.ACCESS_TOKEN_SECRET,
 };
