@@ -1,5 +1,8 @@
 const express = require("express");
-const { sendToken } = require("../controllers/jwt.controller");
+const {
+  refreshToken,
+  generateAccessToken,
+} = require("../controllers/jwt.controller");
 
 const router = express.Router();
 
@@ -7,6 +10,8 @@ const router = express.Router();
  * @APIDesc - Get a User by userId
  */
 
-router.route("/").post(sendToken);
+router.route("/").post(generateAccessToken);
+
+router.route("/refresh-token").post(refreshToken);
 
 module.exports = router;
