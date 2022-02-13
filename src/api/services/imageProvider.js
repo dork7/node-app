@@ -1,12 +1,13 @@
 const cloudinary = require("cloudinary").v2;
-
+const { cloudinaryConfig } = require("../../config/vars");
 cloudinary.config({
-  cloud_name: "djppupdjs",
-  api_key: "118759718176498",
-  api_secret: "kYqtB9cbWE33iryoB5z-KkacuoQ",
+  cloud_name: cloudinaryConfig.cloud_name,
+  api_key: cloudinaryConfig.api_key,
+  api_secret: cloudinaryConfig.api_secret,
 });
 
 exports.uploadImageOnCloudinary = async (imagePaths) => {
+  console.log("cloudinaryConfig", cloudinaryConfig);
   const uploadResp = await imagePaths.map(async (path) => {
     return cloudinary.uploader.upload(path).then((data) => {
       return data;
