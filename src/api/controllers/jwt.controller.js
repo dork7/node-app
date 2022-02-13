@@ -1,4 +1,5 @@
 const { success, error, info } = require("consola");
+const httpStatus = require("http-status");
 const jwt = require("jsonwebtoken");
 const { jwtSecret } = require("../../config/vars");
 let refreshTokens = []; // store refresh token in db
@@ -20,9 +21,10 @@ exports.generateAccessToken = async (req, res, next) => {
 };
 
 const generateToken = (user) => {
-  return jwt.sign({ username: user }, jwtSecret, {
-    expiresIn: "60s",
-  });
+  return jwt.sign({ username: user }, jwtSecret);
+  // return jwt.sign({ username: user }, jwtSecret, {
+  //   expiresIn: "60s",
+  // });
 };
 
 exports.refreshToken = async (req, res, next) => {
@@ -46,7 +48,19 @@ exports.refreshToken = async (req, res, next) => {
     }
     return res.status(400).json({
       success: false,
-      message: "Invalide refresh TOken",
+      message: "Invalid refresh Token",
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+exports.deleteRefreshToken = async (req, res, next) => {
+  try {
+    const refreshToken = req.body.refreshToken;
+    refreshTokens = refreshTokens.filter((item) => item !== refreshToken);
+    return res.status(httpStatus.OK).json({
+      success: true,
+      message: "Deleted Refresh Token",
     });
   } catch (error) {
     return next(error);

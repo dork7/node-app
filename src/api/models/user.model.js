@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const httpStatus = require("http-status");
 const { omitBy, isNil } = require("lodash");
 const bcrypt = require("bcryptjs");
+const moment = require("moment-timezone");
+const jwt = require("jsonwebtoken");
+const { jwtSecret } = require("../../config/vars");
 
 const APIError = require("../utils/APIError");
 
@@ -9,6 +12,40 @@ const APIError = require("../utils/APIError");
  * User Schema
  * @private
  */
+
+const resetPassword = {
+  resetPasswordToken: {
+    data: String,
+    default: "",
+  },
+  expires: {
+    expires: { type: Date },
+  },
+};
+
+const emailVerification = {
+  emailVerificationToken: {
+    data: String,
+    default: "",
+  },
+  expires: {
+    expires: { type: Date },
+  },
+};
+
+const phoneVerification = {
+  isPhoneVerified: {
+    type: Boolean,
+    default: true, // TODO: change it to false after making confirmation page
+  },
+  verificationCode: {
+    type: String,
+    trim: true,
+  },
+  verificationExpiry: {
+    type: Date,
+  },
+};
 
 const userSchema = new mongoose.Schema(
   {
@@ -46,13 +83,38 @@ const userSchema = new mongoose.Schema(
       minlength: 6,
       maxlength: 128,
     },
-
+    picture: {
+      type: String,
+      trim: true,
+      default: "no-photo.jpg",
+    },
+    role: {
+      type: String,
+    },
     phoneNumber: {
       type: String,
       maxlength: 128,
       trim: true,
       default: "",
     },
+    isEmailConfirmed: {
+      // Email Confirmation
+      type: Boolean,
+      required: true,
+      default: true, // TODO: change it to false after making confirmation page
+    },
+
+    refreshToken: {
+      data: String,
+      default: "",
+    },
+    businessId: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null,
+    },
+    resetPassword: resetPassword,
+    emailVerification: emailVerification,
+    phoneVerification: phoneVerification,
 
     // Checks if user was deleted.
     isDeleted: {
@@ -127,12 +189,66 @@ userSchema.method({
   async passwordMatches(password) {
     return bcrypt.compare(password, this.password);
   },
+
+  token() {
+    const payload = {
+      // exp: moment().add(jwtExpirationInterval, "minutes").unix(),
+      iat: moment().unix(),
+      sub: this._id,
+      role: this.role,
+      businessId: this.businessId || null,
+    };
+    return jwt.sign(payload, jwtSecret);
+  },
 });
 
 /**
  * Statics
  */
 userSchema.statics = {
+  async generateEmailVerificationToken(user) {
+    const userId = user._id;
+    const userEmail = user.email;
+    const resetToken = user.token();
+    const expires = moment().add(15, "minutes").toISOString();
+
+    const emailVerification = {
+      emailVerificationToken: resetToken,
+      expires,
+    };
+
+    // await ResetTokenObject.save();
+    await user.updateOne({ emailVerification });
+    return {
+      emailVerification,
+      userEmail,
+    };
+  },
+
+  async authenticateUser({ email, password }) {
+    const user = await this.findOne({ email: email }, (error, doc) => {
+      if (error) {
+        const apiError = new APIError({
+          message: `Mongoose error `,
+          error: error,
+          status: httpStatus.INTERNAL_SERVER_ERROR,
+        });
+        return next(apiError);
+      }
+    }).exec();
+
+    const isMatched = await user.passwordMatches(password);
+    if (isMatched) {
+      let token = user.token();
+
+      return { user, accessToken: token };
+    } else {
+      throw new APIError({
+        message: "Incorrect password.",
+        success: false,
+      });
+    }
+  },
   /**
    * Get user
    *
@@ -175,6 +291,12 @@ userSchema.statics = {
       .skip(perPage * (page - 1))
       .limit(perPage)
       .exec();
+  },
+
+  deleteUser({ email }) {
+    const options = omitBy({ email }, isNil);
+    console.log("options", options);
+    return this.remove(options).exec();
   },
 };
 

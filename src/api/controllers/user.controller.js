@@ -67,3 +67,16 @@ exports.getAllUsers = async (req, res, next) => {
     return next(err);
   }
 };
+exports.deleteUser = async (req, res, next) => {
+  try {
+    const query = req.body;
+    const users = await User.deleteUser(query);
+    return res.status(200).json({
+      users: users,
+      success: true,
+    });
+  } catch (err) {
+    console.error(err);
+    return next(err);
+  }
+};
