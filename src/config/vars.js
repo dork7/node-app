@@ -23,4 +23,9 @@ module.exports = {
   emailClientSecret: process.env.CLIENT_SECRET,
   emailRefreshToken: process.env.REFRESH_TOKEN,
   jwtSecret: process.env.ACCESS_TOKEN_SECRET,
+  cloudinaryConfig: {
+    cloud_name: process.env.CLOUDNAIRY_NAME,
+    api_key: process.env.CLOUDNAIRY_KEY,
+    api_secret: process.env.CLOUDNAIRY_SECRET,
+  },
 };

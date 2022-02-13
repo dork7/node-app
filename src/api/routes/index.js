@@ -6,6 +6,7 @@ const mailRoutes = require("./mail.route");
 const jwtRoutes = require("./jwt.route");
 const productRoutes = require("./product.route");
 const authRoutes = require("./auth.route");
+const imageRoute = require("./image.route");
 const { authorize } = require("../middlewares/auth.middleware");
 
 /**
@@ -18,5 +19,6 @@ router.use("/jwt", jwtRoutes);
 router.use("/users", userRoutes);
 router.use("/mail", mailRoutes);
 router.use("/product", authorize, productRoutes);
+router.use("/image", imageRoute);
 
 module.exports = router;
