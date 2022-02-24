@@ -20,11 +20,10 @@ const sendStream = async (userId, data) => {
   if (!userId) return;
   if (!global.usersStreams[userId]) return;
   if (!data) return;
-  console.log("global.usersStreams", global.usersStreams);
   const { res } = global.usersStreams[userId];
   //   res.write("id: 12345\n");
   res.write(`event: message\n`);
-  //   res.write(`event: ${eventType}\n`);
+  //   res.write(`event: ${eventType}\n`); // add event listeners on the basis of event types
   res.write(`data: ${JSON.stringify(data)}\n\n`);
   global.usersStreams[userId].lastInteraction = Date.now();
 };
