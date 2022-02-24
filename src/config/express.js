@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // gzip compression
-app.use(compress());
+// app.use(compress());
 
 // lets you use HTTP verbs such as PUT or DELETE
 // in places where the client doesn't support it

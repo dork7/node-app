@@ -8,6 +8,7 @@ const productRoutes = require("./product.route");
 const authRoutes = require("./auth.route");
 const imageRoute = require("./image.route");
 const smsRoute = require("./sms.route");
+const sseRoute = require("./sse.route");
 const { authorize } = require("../middlewares/auth.middleware");
 
 /**
@@ -22,5 +23,6 @@ router.use("/mail", mailRoutes);
 router.use("/product", authorize, productRoutes);
 router.use("/image", imageRoute);
 router.use("/sms", smsRoute);
+router.use("/sse", sseRoute);
 
 module.exports = router;
