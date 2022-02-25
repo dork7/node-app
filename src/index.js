@@ -6,6 +6,7 @@ const app = require("./config/express");
 const mongoose = require("./config/mongoose");
 const { success, error } = require("consola");
 const fileUpload = require("express-fileupload");
+const io = require("./config/websocket");
 
 // open mongoose connection
 mongoose.connect();
