@@ -1,5 +1,5 @@
 const express = require("express");
-const { getData, storeData } = require("../controllers/redis.controller");
+// const { getData, storeData } = require("../controllers/redis.controller");
 
 const router = express.Router();
 
