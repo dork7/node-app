@@ -28,4 +28,7 @@ module.exports = {
     api_key: process.env.CLOUDNAIRY_KEY,
     api_secret: process.env.CLOUDNAIRY_SECRET,
   },
+
+  redisHost: process.env.REDIS_HOST,
+  redisPort: process.env.REDIS_PORT,
 };
