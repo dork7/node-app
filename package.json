@@ -3,9 +3,35 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "engines": {
+    "node": ">=8",
+    "yarn": "*"
+  },
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon ./src/index.js",
-    "start": "node ./src/index.js"
+    "precommit": "yarn lint",
+    "prestart": "yarn docs",
+    "start": "cross-env NODE_ENV=production pm2 start ./src/index.js",
+    "mock": "nodemon ./mock_server/mock.js",
+    "prod": "cross-env NODE_ENV=production nodemon ./src/index.js",
+    "lint": "eslint ./src/ --ignore-path .gitignore --ignore-pattern internals/scripts",
+    "lint:fix": "yarn lint --fix",
+    "lint:watch": "yarn lint --watch",
+    "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --timeout 20000 --exit --recursive src/api/tests",
+    "test:unit": "cross-env NODE_ENV=test mocha src/api/tests/unit",
+    "test:integration": "cross-env NODE_ENV=test mocha --timeout 20000 --exit src/api/tests/integration",
+    "test:watch": "cross-env NODE_ENV=test mocha --watch src/api/tests/unit",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "postcoverage": "open-cli coverage/lcov-report/index.html",
+    "validate": "yarn lint && yarn test",
+    "postpublish": "git push --tags",
+    "deploy": "sh ./deploy.sh",
+    "docs": "apidoc -i src -o docs",
+    "postdocs": "open-cli docs/index.html",
+    "docker:start": "cross-env NODE_ENV=production pm2-docker start ./src/index.js",
+    "docker:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up",
+    "docker:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
+    "docker:test": "docker-compose -f docker-compose.yml -f docker-compose.test.yml up --abort-on-container-exit"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -33,6 +59,7 @@
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.7",
     "passport": "^0.5.2",
+    "pm2": "^5.2.0",
     "redis": "^4.0.4",
     "textbelt": "0.0.4",
     "winston": "^3.5.1"

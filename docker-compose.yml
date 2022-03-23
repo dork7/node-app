@@ -1,0 +1,15 @@
+version: "2"
+services:
+  node-app:
+    restart: always
+    build: .
+    # ports:
+    #   - "4000:4000"
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+    depends_on:
+        - "node-app"
+    ports:
+        - 3000:3000

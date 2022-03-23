@@ -11,11 +11,14 @@ const smsRoute = require("./sms.route");
 const sseRoute = require("./sse.route");
 const redisRoute = require("./redis.route");
 const { authorize } = require("../middlewares/auth.middleware");
-
+const os = require("os");
 /**
  * GET v1/status
  */
 router.get("/test", (req, res) => res.send("OK"));
+router.get("/", (req, res) =>
+  res.send({ message: "node app update", host: os.hostname() })
+);
 
 router.use("/auth", authRoutes);
 router.use("/jwt", jwtRoutes);

@@ -1,0 +1,10 @@
+version: "2"
+services:
+  node-app:
+    container_name: node-app-container
+    restart: always
+    build: .
+    # image: "node-app"
+    ports:
+      - "4000:4000"
+ 
