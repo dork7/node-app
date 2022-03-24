@@ -52,13 +52,13 @@ const userSchema = new mongoose.Schema(
     firstName: {
       type: String,
       maxlength: 64,
-      index: true,
+      // index: true,
       trim: true,
     },
     lastName: {
       type: String,
       maxlength: 64,
-      index: true,
+      // index: true,
       trim: true,
     },
     gender: {

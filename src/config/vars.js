@@ -22,7 +22,7 @@ module.exports = {
   emailClientID: process.env.CLIENT_ID,
   emailClientSecret: process.env.CLIENT_SECRET,
   emailRefreshToken: process.env.REFRESH_TOKEN,
-  jwtSecret: process.env.ACCESS_TOKEN_SECRET,
+  jwtSecret: process.env.JWT_SECRET,
   cloudinaryConfig: {
     cloud_name: process.env.CLOUDNAIRY_NAME,
     api_key: process.env.CLOUDNAIRY_KEY,

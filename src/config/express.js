@@ -46,7 +46,7 @@ app.use(cookieParser());
 app.use(cors());
 
 // enable authentication
-// app.use(passport.initialize());
+app.use(passport.initialize());
 // passport.use("jwt", strategies.jwt);
 // passport.use("facebook", strategies.facebook);
 // passport.use("apple", strategies.apple);

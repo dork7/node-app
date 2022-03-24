@@ -15,13 +15,13 @@ const productSchema = new mongoose.Schema(
     productName: {
       type: String,
       maxlength: 64,
-      index: true,
+      // index: true,p
       trim: true,
     },
     productOwner: {
       type: String,
       maxlength: 64,
-      index: true,
+      // index: true,
       trim: true,
     },
   },
