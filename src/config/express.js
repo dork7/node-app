@@ -23,7 +23,7 @@ const { logs } = require("./vars");
 const app = express();
 
 // request logging. dev: console | production: file
-app.use(morgan(logs));
+// app.use(morgan(logs));
 
 // parse body params and attache them to req.body
 app.use(bodyParser.json());

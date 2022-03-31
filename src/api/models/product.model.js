@@ -12,10 +12,17 @@ const APIError = require("../utils/APIError");
 
 const productSchema = new mongoose.Schema(
   {
+    productId: {
+      type: String,
+      maxlength: 64,
+      // index: true,
+      required: true,
+      trim: true,
+    },
     productName: {
       type: String,
       maxlength: 64,
-      // index: true,p
+      // index: true,
       trim: true,
     },
     productOwner: {
@@ -64,23 +71,7 @@ productSchema.virtual("fullName").get(() => {
 productSchema.method({
   transform() {
     const transformed = {};
-    const fields = [
-      "id",
-      "name",
-      "firstName",
-      "lastName",
-      "gender",
-      "phoneNumber",
-      "userLocation",
-      "email",
-      "picture",
-      "role",
-      "isEmailConfirmed",
-      "isPhoneVerified",
-      "businessId",
-      "accessControl",
-      "createdAt",
-    ];
+    const fields = ["id", "productId", "productName", "productOwner"];
 
     fields.forEach((field) => {
       transformed[field] = this[field];
@@ -142,8 +133,10 @@ productSchema.statics = {
       .exec();
   },
 };
+// productSchema.index({ productId: "text" });
+productSchema.index({ "$**": "text" });
 
 /**
- * @typedef User
+ * @typedef product
  */
 module.exports = mongoose.model("Product", productSchema);

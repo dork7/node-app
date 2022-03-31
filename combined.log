@@ -2,3 +2,5 @@
 {"level":"info","message":"Sending Message undefined"}
 {"level":"info","message":"Sending Message undefined"}
 {"level":"info","message":"Sending Message undefined"}
+{"level":"error","message":"MongoDB connection error: Error: querySrv EREFUSED _mongodb._tcp.mcluster.7kxtv.mongodb.net"}
+{"level":"error","message":"MongoDB connection error: Error: querySrv EREFUSED _mongodb._tcp.mcluster.7kxtv.mongodb.net"}
