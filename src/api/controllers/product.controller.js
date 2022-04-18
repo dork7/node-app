@@ -70,7 +70,8 @@ exports.updateProduct = async (req, res, next) => {
 exports.getAllProducts = async (req, res, next) => {
   try {
     const query = req.query;
-    const products = await Product.find(query);
+
+    const products = await Product.list(query);
     return res.status(200).json({
       count: products.length,
       user: req.user,

@@ -31,6 +31,11 @@ const productSchema = new mongoose.Schema(
       // index: true,
       trim: true,
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
   },
   {
     timestamps: true,
@@ -123,9 +128,16 @@ productSchema.statics = {
    * @param {number} limit - Limit number of users to be returned.
    * @returns {Promise<User[]>}
    */
-  list({ page = 1, perPage = 30, name, email, role }) {
-    const options = omitBy({ name, email, role }, isNil);
-
+  list({ page = 1, perPage = 30, productId, withUser }) {
+    const options = omitBy({ productId }, isNil);
+    if (withUser) {
+      return this.find(options)
+        .populate({
+          path: "userId",
+          select: { firstName: 1, lastName: 1, email: 1 },
+        })
+        .exec();
+    }
     return this.find(options)
       .sort({ createdAt: -1 })
       .skip(perPage * (page - 1))
