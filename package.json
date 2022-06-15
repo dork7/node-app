@@ -12,7 +12,7 @@
     "precommit": "yarn lint",
     "_prestart": "yarn docs",
     "_start": "cross-env NODE_ENV=production pm2 start ./src/index.js",
-    "start": "cross-env NODE_ENV=development node ./src/index.js",
+    "start": "node ./src/index.js",
     "mock": "nodemon ./mock_server/mock.js",
     "prod": "cross-env NODE_ENV=production nodemon ./src/index.js",
     "lint": "eslint ./src/ --ignore-path .gitignore --ignore-pattern internals/scripts",
