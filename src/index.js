@@ -1,18 +1,27 @@
-// Import packages
-const express = require('express');
+// make bluebird default Promise
+Promise = require('bluebird'); // eslint-disable-line no-global-assign
+const { port, env } = require('./config/vars');
+const logger = require('./config/logger');
+const app = require('./config/express');
+const mongoose = require('./config/mongoose');
+const { success, error } = require('consola');
+const fileUpload = require('express-fileupload');
 
-// Middlewares
-const app = express();
-app.use(express.json());
+// open mongoose connection
+mongoose.connect();
 
-// Routes
-app.use('/home', (req, res) => {
-  return res.status(200).json({
-    title: 'Express Testing',
-    message: 'The app is working properly!',
-  });
-});
+app.use(
+  fileUpload({
+    useTempFiles: true,
+  })
+);
+// listen to requests
+app.listen(port, () =>
+  success({ message: `server started on port ${port} (${env})` })
+);
 
-// connection
-const port = process.env.PORT || 9001;
-app.listen(port, () => console.log(`Listening to port ${port}`));
+/**
+ * Exports express
+ * @public
+ */
+module.exports = app;
