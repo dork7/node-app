@@ -7,7 +7,10 @@ app.use(express.json());
 
 // Routes
 app.use('/home', (req, res) => {
-  res.send({ mgs: 'working' });
+  return res.status(200).json({
+    title: 'Express Testing',
+    message: 'The app is working properly!',
+  });
 });
 
 // connection
