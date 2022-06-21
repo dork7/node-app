@@ -1,12 +1,12 @@
-const mongoose = require("mongoose");
-const httpStatus = require("http-status");
-const { omitBy, isNil } = require("lodash");
-const bcrypt = require("bcryptjs");
-const moment = require("moment-timezone");
-const jwt = require("jsonwebtoken");
-const { jwtSecret } = require("../../config/vars");
+const mongoose = require('mongoose');
+const httpStatus = require('http-status');
+const { omitBy, isNil } = require('lodash');
+const bcrypt = require('bcryptjs');
+const moment = require('moment-timezone');
+const jwt = require('jsonwebtoken');
+const { jwtSecret } = require('../../config/vars');
 
-const APIError = require("../utils/APIError");
+const APIError = require('../utils/APIError');
 
 /**
  * User Schema
@@ -16,7 +16,7 @@ const APIError = require("../utils/APIError");
 const resetPassword = {
   resetPasswordToken: {
     data: String,
-    default: "",
+    default: '',
   },
   expires: {
     expires: { type: Date },
@@ -26,7 +26,7 @@ const resetPassword = {
 const emailVerification = {
   emailVerificationToken: {
     data: String,
-    default: "",
+    default: '',
   },
   expires: {
     expires: { type: Date },
@@ -63,7 +63,7 @@ const userSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
-      enum: ["Male", "Female"],
+      enum: ['Male', 'Female'],
     },
     email: {
       type: String,
@@ -75,7 +75,7 @@ const userSchema = new mongoose.Schema(
     },
     address: {
       type: String,
-      default: "",
+      default: '',
     },
     password: {
       type: String,
@@ -86,7 +86,7 @@ const userSchema = new mongoose.Schema(
     picture: {
       type: String,
       trim: true,
-      default: "no-photo.jpg",
+      default: 'no-photo.jpg',
     },
     role: {
       type: String,
@@ -95,7 +95,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       maxlength: 128,
       trim: true,
-      default: "",
+      default: '',
     },
     isEmailConfirmed: {
       // Email Confirmation
@@ -106,7 +106,7 @@ const userSchema = new mongoose.Schema(
 
     refreshToken: {
       data: String,
-      default: "",
+      default: '',
     },
     businessId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -133,9 +133,9 @@ const userSchema = new mongoose.Schema(
  * - validations
  * - virtuals
  */
-userSchema.pre("save", async function save(next) {
+userSchema.pre('save', async function save(next) {
   try {
-    if (!this.isModified("password")) return next();
+    if (!this.isModified('password')) return next();
 
     const rounds = 6;
 
@@ -151,8 +151,8 @@ userSchema.pre("save", async function save(next) {
 /**
  * Virtual - Saves fullName in Database
  */
-userSchema.virtual("fullName").get(() => {
-  return this.firstName + " " + this.lastName;
+userSchema.virtual('fullName').get(() => {
+  return this.firstName + ' ' + this.lastName;
 });
 
 /**
@@ -162,21 +162,21 @@ userSchema.method({
   transform() {
     const transformed = {};
     const fields = [
-      "id",
-      "name",
-      "firstName",
-      "lastName",
-      "gender",
-      "phoneNumber",
-      "userLocation",
-      "email",
-      "picture",
-      "role",
-      "isEmailConfirmed",
-      "isPhoneVerified",
-      "businessId",
-      "accessControl",
-      "createdAt",
+      'id',
+      'name',
+      'firstName',
+      'lastName',
+      'gender',
+      'phoneNumber',
+      'userLocation',
+      'email',
+      'picture',
+      'role',
+      'isEmailConfirmed',
+      'isPhoneVerified',
+      'businessId',
+      'accessControl',
+      'createdAt',
     ];
 
     fields.forEach((field) => {
@@ -210,7 +210,7 @@ userSchema.statics = {
     const userId = user._id;
     const userEmail = user.email;
     const resetToken = user.token();
-    const expires = moment().add(15, "minutes").toISOString();
+    const expires = moment().add(15, 'minutes').toISOString();
 
     const emailVerification = {
       emailVerificationToken: resetToken,
@@ -225,17 +225,25 @@ userSchema.statics = {
     };
   },
 
-  async authenticateUser({ email, password }) {
+  async authenticateUser({ email, password }, next) {
     const user = await this.findOne({ email: email }, (error, doc) => {
       if (error) {
-        const apiError = new APIError({
+        console.log('error', error);
+        throw new APIError({
           message: `Mongoose error `,
           error: error,
-          status: httpStatus.INTERNAL_SERVER_ERROR,
+          // status: httpStatus.INTERNAL_SERVER_ERROR,
         });
-        return next(apiError);
       }
     }).exec();
+    if (user === null) {
+      throw new APIError({
+        message: 'Email not found!!!',
+        success: false,
+        errors: `Email not found`,
+        status: httpStatus.NOT_FOUND,
+      });
+    }
 
     const isMatched = await user.passwordMatches(password);
     if (isMatched) {
@@ -244,7 +252,7 @@ userSchema.statics = {
       return { user, accessToken: token };
     } else {
       throw new APIError({
-        message: "Incorrect password.",
+        message: 'Incorrect password.',
         success: false,
       });
     }
@@ -268,7 +276,7 @@ userSchema.statics = {
       }
 
       throw new APIError({
-        message: "User does not exist",
+        message: 'User does not exist',
         status: httpStatus.NOT_FOUND,
       });
     } catch (error) {
@@ -295,7 +303,7 @@ userSchema.statics = {
 
   deleteUser({ email }) {
     const options = omitBy({ email }, isNil);
-    console.log("options", options);
+    console.log('options', options);
     return this.remove(options).exec();
   },
 };
@@ -303,4 +311,4 @@ userSchema.statics = {
 /**
  * @typedef User
  */
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);

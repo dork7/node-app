@@ -1,27 +1,32 @@
-const { success, error, info } = require("consola");
-const { sendMail } = require("../services/emailProvider");
-const User = require("../models/user.model");
-const APIError = require("../utils/APIError");
-const httpStatus = require("http-status");
+const { success, error, info } = require('consola');
+const { sendMail } = require('../services/emailProvider');
+const User = require('../models/user.model');
+const APIError = require('../utils/APIError');
+const httpStatus = require('http-status');
 
 exports.login = async (req, res, next) => {
   try {
     // user authentication
     const userData = req.body;
-    const user = await User.authenticateUser(userData);
+    console.log('userData', userData);
+    const { user, accessToken } = await User.authenticateUser(userData, next);
+    const { email } = user;
+
     res.status(200).json({
       success: true,
-      ...user,
+      email,
+      accessToken,
       // isMatched,
     });
   } catch (error) {
+    console.log('error', error);
     return next(error);
   }
 };
 exports.register = async (req, res, next) => {
   try {
     // user registration
-    console.log("req.body", req.body);
+    console.log('req.body', req.body);
     const userDetails = req.body;
     const newUser = new User({
       ...userDetails,
@@ -30,12 +35,12 @@ exports.register = async (req, res, next) => {
       // role: userDetails.role,
     });
 
-    await newUser.save(async (error, user) => {
+    const userSaved = await newUser.save(async (error, user) => {
       if (error) {
-        if (error.name === "MongoError" && error.code === 11000) {
+        if (error.name === 'MongoError' && error.code === 11000) {
           // return "email must be unique";
           const apiError = new APIError({
-            message: "Email already registered",
+            message: 'Email already registered',
             status: httpStatus.CONFLICT,
           });
           return next(apiError);
@@ -52,10 +57,12 @@ exports.register = async (req, res, next) => {
       //  TODO: send mail
       // await sendEmailVerificationInstructions(emailVerificationObj);
       // TODO: send OTP
+      const { email } = user;
+
       return res.status(200).json({
         success: true,
-        message: "Registered",
-        user,
+        message: 'Registered',
+        email,
       });
     });
   } catch (error) {

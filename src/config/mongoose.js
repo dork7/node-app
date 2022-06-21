@@ -25,7 +25,7 @@ if (env === 'development') {
 exports.connect = () => {
   mongoose
     .connect(mongo.uri, {
-      useCreateIndex: true,
+      useCreateIndex: false,
       keepAlive: 1,
       useNewUrlParser: true,
       useUnifiedTopology: true,
