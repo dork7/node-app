@@ -4,7 +4,7 @@ const { omitBy, isNil } = require('lodash');
 const bcrypt = require('bcryptjs');
 const moment = require('moment-timezone');
 const jwt = require('jsonwebtoken');
-const { jwtSecret } = require('../../config/vars');
+const { jwtSecret, jwtRefreshSecret } = require('../../config/vars');
 
 const APIError = require('../utils/APIError');
 
@@ -177,6 +177,7 @@ userSchema.method({
       'businessId',
       'accessControl',
       'createdAt',
+      'refreshToken',
     ];
 
     fields.forEach((field) => {
@@ -192,13 +193,23 @@ userSchema.method({
 
   token() {
     const payload = {
-      // exp: moment().add(jwtExpirationInterval, "minutes").unix(),
+      exp: moment().add(30, 'minutes').unix(),
       iat: moment().unix(),
       sub: this._id,
       role: this.role,
       businessId: this.businessId || null,
     };
     return jwt.sign(payload, jwtSecret);
+  },
+  getRefreshToken() {
+    const payload = {
+      exp: moment().add(30, 'minutes').unix(),
+      iat: moment().unix(),
+      sub: this._id,
+      role: this.role,
+      businessId: this.businessId || null,
+    };
+    return jwt.sign(payload, jwtRefreshSecret);
   },
 });
 
@@ -210,7 +221,7 @@ userSchema.statics = {
     const userId = user._id;
     const userEmail = user.email;
     const resetToken = user.token();
-    const expires = moment().add(15, 'minutes').toISOString();
+    const expires = moment().add(480, 'minutes').toISOString();
 
     const emailVerification = {
       emailVerificationToken: resetToken,
@@ -248,8 +259,10 @@ userSchema.statics = {
     const isMatched = await user.passwordMatches(password);
     if (isMatched) {
       let token = user.token();
-
-      return { user, accessToken: token };
+      let refreshToken = user.getRefreshToken();
+      // update refresh token in DB
+      await user.update({ refreshToken });
+      return { email: user.email, accessToken: token, refreshToken };
     } else {
       throw new APIError({
         message: 'Incorrect password.',
@@ -257,6 +270,42 @@ userSchema.statics = {
       });
     }
   },
+
+  async authenticateRefreshToken(refreshToken) {
+    const user = await this.findOne({ refreshToken });
+
+    if (!user) {
+      throw new APIError({
+        status: httpStatus.NOT_FOUND,
+        message: 'Refresh Token Not Found',
+      });
+    }
+    return jwt.verify(refreshToken, jwtRefreshSecret, (err, decoded) => {
+      if (err) {
+        throw new APIError({
+          status: httpStatus.FORBIDDEN,
+          message: 'Refresh Token Not Authentic/expired',
+        });
+      }
+      const accessToken = user.token();
+      return accessToken;
+    });
+  },
+
+  async logout(refreshToken) {
+    const user = await this.findOne({ refreshToken });
+
+    if (!user) {
+      // throw new APIError({
+      //   status: httpStatus.NO_CONTENT,
+      //   message: 'Refresh Token Not Found',
+      // });
+      return null;
+    }
+
+    return await user.update({ refreshToken: null });
+  },
+
   /**
    * Get user
    *
