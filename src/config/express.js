@@ -13,6 +13,8 @@ const routes = require('../api/routes');
 const { logs } = require('./vars');
 // const strategies = require("./passport");
 const error = require('../api/middlewares/error');
+const corsOptions = require('./corsOptions');
+const credentials = require('../api/middlewares/credentials');
 // const passportSetup = require("../config/passport");
 // const { jwtSecret } = require("../config/vars");
 
@@ -29,6 +31,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// CORS headers
+app.use(credentials);
+
 // gzip compression
 // app.use(compress());
 
@@ -43,7 +48,7 @@ app.use(helmet());
 app.use(cookieParser());
 
 // enable CORS - Cross Origin Resource Sharing
-app.use(cors());
+app.use(cors(corsOptions));
 
 // enable authentication
 app.use(passport.initialize());
