@@ -12,6 +12,8 @@ const sseRoute = require('./sse.route');
 const redisRoute = require('./redis.route');
 // const longPooling = require('./longPooling.route');
 const { authorize } = require('../middlewares/auth.middleware');
+const { graphqlHTTP } = require('express-graphql');
+
 const os = require('os');
 /**
  * GET v1/status
@@ -41,5 +43,13 @@ router.use('/sse', sseRoute);
 router.use('/redis', redisRoute);
 
 // router.use('/long-pooling', longPooling);
+
+router.use(
+  '/graphql',
+  graphqlHTTP({
+    schema: require('../graphql/schema'),
+    graphiql: true,
+  })
+);
 
 module.exports = router;

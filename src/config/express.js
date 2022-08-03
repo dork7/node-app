@@ -32,7 +32,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // CORS headers
-app.use(credentials);
+// app.use(credentials);
 
 // gzip compression
 // app.use(compress());
@@ -42,13 +42,20 @@ app.use(credentials);
 app.use(methodOverride());
 
 // secure apps by setting various HTTP headers
-app.use(helmet());
+// app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy:
+      process.env.NODE_ENV === 'production' ? undefined : false,
+  })
+);
 
 // Parse Incoming Cookies
 app.use(cookieParser());
 
 // enable CORS - Cross Origin Resource Sharing
-app.use(cors(corsOptions));
+app.use(cors());
+// app.use(cors(corsOptions));
 
 // enable authentication
 app.use(passport.initialize());
