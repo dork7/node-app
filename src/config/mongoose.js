@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const logger = require('./../config/logger');
 const { mongo, env } = require('./vars');
+const consola = require('consola');
 
 // set mongoose Promise to Bluebird
 mongoose.Promise = Promise;
@@ -31,6 +32,6 @@ exports.connect = () => {
       useUnifiedTopology: true,
       useFindAndModify: false,
     })
-    .then(() => console.log('mongoDB connected...'));
+    .then(() => consola.info('mongoDB connected...'));
   return mongoose.connection;
 };
