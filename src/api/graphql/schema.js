@@ -22,6 +22,12 @@ const ClientType = new GraphQLObjectType({
     name: { type: GraphQLString },
     email: { type: GraphQLString },
     phone: { type: GraphQLString },
+    projects: {
+      type: new GraphQLList(ProjectType),
+      resolve(parent, args) {
+        return Project.find({ clientId: parent.id });
+      },
+    },
   }),
 });
 
@@ -119,6 +125,18 @@ const mutations = new GraphQLObjectType({
       },
     },
     // delete Client
+    updateClient: {
+      type: ClientType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        name: { type: GraphQLString },
+        description: { type: GraphQLString },
+      },
+      resolve(parent, args) {
+        return Client.findByIdAndUpdate(args.id, args, { new: true });
+      },
+    },
+    // delete Client
     deleteClient: {
       type: ClientType,
       args: {
@@ -158,6 +176,40 @@ const mutations = new GraphQLObjectType({
         return project.save();
       },
     },
+
+    // update project
+    updateProject: {
+      type: ProjectType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        name: { type: GraphQLString },
+        description: { type: GraphQLString },
+        status: {
+          type: new GraphQLEnumType({
+            name: 'ProjectStatusUpdate',
+            values: {
+              new: { value: 'Not Started' },
+              progress: { value: 'In Progress' },
+              completed: { value: 'Completed' },
+            },
+          }),
+        },
+      },
+      resolve(parent, args) {
+        return Project.findByIdAndUpdate(args.id, args, { new: true });
+      },
+    },
+    // delete project
+    deleteProject: {
+      type: ProjectType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+      },
+      resolve(parent, args) {
+        return Project.findByIdAndRemove(args.id);
+      },
+    },
+    //
   },
 });
 
