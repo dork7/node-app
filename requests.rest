@@ -34,6 +34,7 @@ Authorization: {{token}}
 ###
 # POST products
 POST http://{{host}}/v1/product
+Content-Type: application/json
 Authorization: {{token}}
 
 {
@@ -47,4 +48,15 @@ Authorization: {{token}}
 GET http://{{host}}/v1/product
 Authorization: {{token}}
 
+
+###
+# SEND MAIL
+POST http://{{host}}/v1/mail
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "email" : "hamzameh122@gmail.com",
+    "mailBody" : "2000"
+}
  
