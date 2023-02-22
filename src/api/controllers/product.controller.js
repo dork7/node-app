@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const Product = require("../models/product.model");
-const { nanoid, customAlphabet } = require("nanoid");
+const mongoose = require('mongoose');
+const Product = require('../models/product.model');
+const { nanoid, customAlphabet } = require('nanoid');
 
 /**
  * Load user and append to req.
@@ -9,18 +9,19 @@ const { nanoid, customAlphabet } = require("nanoid");
 
 const posts = [
   {
-    userName: "lol",
-    title: "post1",
+    userName: 'lol',
+    title: 'post1',
   },
   {
-    userName: "apple",
-    title: "post2",
+    userName: 'apple',
+    title: 'post2',
   },
 ];
 exports.addProduct = async (req, res, next) => {
   try {
-    const randomAlphaNumeric = customAlphabet("MAXPINE2002", 5);
+    const randomAlphaNumeric = customAlphabet('MAXPINE2002', 5);
     req.body.productId = randomAlphaNumeric();
+    req.body.productOwner = req.user.userId;
     const product = await new Product(req.body).save();
     const productTransformed = product.transform();
     return res.status(200).json({
@@ -86,11 +87,11 @@ exports.getAllProducts = async (req, res, next) => {
 exports.deleteProducts = async (req, res, next) => {
   try {
     const productId = req.params.productId;
-    if (productId === "all") {
+    if (productId === 'all') {
       const products = await Product.deleteMany();
       return res.status(200).json({
         user: req.user,
-        message: "All product removed",
+        message: 'All product removed',
         products: products,
         success: true,
       });
@@ -124,7 +125,7 @@ const fullTextSearch = async (req, res, next) => {
     const searchString = req.params;
 
     const result = await Product.find({
-      $text: { $search: "IP" },
+      $text: { $search: 'IP' },
     });
     console.log(result);
     return res.status(200).json({ result, success: true });

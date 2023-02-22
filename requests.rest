@@ -1,0 +1,50 @@
+@host=localhost:4000
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzcwNTY3MjYsImlhdCI6MTY3NzA1NDkyNiwidXNlcklkIjoiNjNmNWNiYjU5MTdiNDU0YmY4ZWM5NmQ1IiwiYnVzaW5lc3NJZCI6bnVsbH0.OYrVvo_647oQdOuG32jBhveV6RgQaFOVR4XxT4Xt5Uo
+
+
+GET http://{{host}}/v1/test
+
+###
+
+POST http://{{host}}/v1/auth/login
+Content-Type: application/json
+
+{
+    "email" :"dev@gmail.com",
+    "password" : "123"
+}
+
+###
+
+POST http://{{host}}/v1/auth/register
+Content-Type: application/json
+
+{
+    "email" :"dev2@gmail.com",
+    "password" : "123"
+}
+
+
+###
+# get users
+GET http://{{host}}/v1/users
+Authorization: {{token}}
+
+ 
+###
+# POST products
+POST http://{{host}}/v1/product
+Authorization: {{token}}
+
+{
+
+    "productName" : "apple111",
+    "price" : "2000"
+}
+ 
+###
+# get products
+GET http://{{host}}/v1/product
+Authorization: {{token}}
+
+ 

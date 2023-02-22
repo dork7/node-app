@@ -42,8 +42,9 @@ exports.register = async (req, res, next) => {
       // role: userDetails.role,
     });
 
-    const userSaved = await newUser.save(async (error, user) => {
+    newUser.save(async (error, user) => {
       if (error) {
+        console.log('error :>> ', error);
         if (error.name === 'MongoError' && error.code === 11000) {
           // return "email must be unique";
           const apiError = new APIError({
@@ -52,7 +53,11 @@ exports.register = async (req, res, next) => {
           });
           return next(apiError);
         } else {
-          return error;
+          const apiError = new APIError({
+            message: error.message ?? 'Some thing went wrong',
+            status: httpStatus.CONFLICT,
+          });
+          return next(apiError);
         }
       }
 

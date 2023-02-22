@@ -80,7 +80,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      minlength: 6,
+      minlength: 3,
       maxlength: 128,
     },
     picture: {
@@ -195,7 +195,7 @@ userSchema.method({
     const payload = {
       exp: moment().add(30, 'minutes').unix(),
       iat: moment().unix(),
-      sub: this._id,
+      userId: this._id,
       role: this.role,
       businessId: this.businessId || null,
     };

@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
-const httpStatus = require("http-status");
-const { omitBy, isNil } = require("lodash");
-const bcrypt = require("bcryptjs");
+const mongoose = require('mongoose');
+const httpStatus = require('http-status');
+const { omitBy, isNil } = require('lodash');
+const bcrypt = require('bcryptjs');
 
-const APIError = require("../utils/APIError");
+const APIError = require('../utils/APIError');
 
 /**
  * User Schema
@@ -31,9 +31,13 @@ const productSchema = new mongoose.Schema(
       // index: true,
       trim: true,
     },
+    price: {
+      type: String,
+      trim: true,
+    },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       default: null,
     },
   },
@@ -48,9 +52,9 @@ const productSchema = new mongoose.Schema(
  * - validations
  * - virtuals
  */
-productSchema.pre("save", async function save(next) {
+productSchema.pre('save', async function save(next) {
   try {
-    if (!this.isModified("password")) return next();
+    if (!this.isModified('password')) return next();
 
     const rounds = 6;
 
@@ -66,8 +70,8 @@ productSchema.pre("save", async function save(next) {
 /**
  * Virtual - Saves fullName in Database
  */
-productSchema.virtual("fullName").get(() => {
-  return this.firstName + " " + this.lastName;
+productSchema.virtual('fullName').get(() => {
+  return this.firstName + ' ' + this.lastName;
 });
 
 /**
@@ -76,7 +80,7 @@ productSchema.virtual("fullName").get(() => {
 productSchema.method({
   transform() {
     const transformed = {};
-    const fields = ["id", "productId", "productName", "productOwner"];
+    const fields = ['id', 'productId', 'productName', 'productOwner'];
 
     fields.forEach((field) => {
       transformed[field] = this[field];
@@ -113,7 +117,7 @@ productSchema.statics = {
       }
 
       throw new APIError({
-        message: "User does not exist",
+        message: 'User does not exist',
         status: httpStatus.NOT_FOUND,
       });
     } catch (error) {
@@ -133,7 +137,7 @@ productSchema.statics = {
     if (withUser) {
       return this.find(options)
         .populate({
-          path: "userId",
+          path: 'userId',
           select: { firstName: 1, lastName: 1, email: 1 },
         })
         .exec();
@@ -146,9 +150,9 @@ productSchema.statics = {
   },
 };
 // productSchema.index({ productId: "text" });
-productSchema.index({ "$**": "text" });
+productSchema.index({ '$**': 'text' });
 
 /**
  * @typedef product
  */
-module.exports = mongoose.model("Product", productSchema);
+module.exports = mongoose.model('Product', productSchema);
