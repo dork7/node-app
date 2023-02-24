@@ -2,6 +2,7 @@ const express = require('express');
 const {
   register,
   login,
+  login1,
   refreshJwtToken,
   logout,
 } = require('../controllers/auth.controller');

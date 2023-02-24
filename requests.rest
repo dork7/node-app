@@ -1,12 +1,14 @@
-@host=localhost:4000
+# @host=http://localhost:4000
 @token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzcwNTY3MjYsImlhdCI6MTY3NzA1NDkyNiwidXNlcklkIjoiNjNmNWNiYjU5MTdiNDU0YmY4ZWM5NmQ1IiwiYnVzaW5lc3NJZCI6bnVsbH0.OYrVvo_647oQdOuG32jBhveV6RgQaFOVR4XxT4Xt5Uo
 
 
-GET http://{{host}}/v1/test
+@host=https://node-app-tau.vercel.app/
+
+GET {{host}}/v1/test
 
 ###
 
-POST http://{{host}}/v1/auth/login
+POST {{host}}/v1/auth/login
 Content-Type: application/json
 
 {
@@ -16,7 +18,7 @@ Content-Type: application/json
 
 ###
 
-POST http://{{host}}/v1/auth/register
+POST {{host}}/v1/auth/register
 Content-Type: application/json
 
 {
@@ -27,13 +29,13 @@ Content-Type: application/json
 
 ###
 # get users
-GET http://{{host}}/v1/users
+GET {{host}}/v1/users
 Authorization: {{token}}
 
  
 ###
 # POST products
-POST http://{{host}}/v1/product
+POST {{host}}/v1/product
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -45,13 +47,13 @@ Authorization: {{token}}
  
 ###
 # get products
-GET http://{{host}}/v1/product
+GET {{host}}/v1/product
 Authorization: {{token}}
 
 
 ###
 # SEND MAIL
-POST http://{{host}}/v1/mail
+POST {{host}}/v1/mail
 Content-Type: application/json
 Authorization: {{token}}
 

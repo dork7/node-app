@@ -54,7 +54,12 @@ app.use(
 app.use(cookieParser());
 
 // enable CORS - Cross Origin Resource Sharing
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: 'http://localhost:3000',
+  })
+);
 // app.use(cors(corsOptions));
 
 // enable authentication
