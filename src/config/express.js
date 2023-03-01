@@ -15,6 +15,7 @@ const { logs } = require('./vars');
 const error = require('../api/middlewares/error');
 const corsOptions = require('./corsOptions');
 const credentials = require('../api/middlewares/credentials');
+const allowedOrigins = require('./allowedOrigins');
 // const passportSetup = require("../config/passport");
 // const { jwtSecret } = require("../config/vars");
 
@@ -57,7 +58,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: 'http://localhost:3000',
+    origin: allowedOrigins,
   })
 );
 // app.use(cors(corsOptions));

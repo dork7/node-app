@@ -13,7 +13,7 @@ exports.login = async (req, res, next) => {
       userData,
       next
     );
-    res.cookie('jwt', refreshToken, {
+    res.cookie('jwtRefresh', refreshToken, {
       httpOnly: true,
       // sameSite: 'none',
       // secure: true,
