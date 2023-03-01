@@ -132,8 +132,8 @@ productSchema.statics = {
    * @param {number} limit - Limit number of users to be returned.
    * @returns {Promise<User[]>}
    */
-  list({ page = 1, perPage = 30, productId, withUser }) {
-    const options = omitBy({ productId }, isNil);
+  list({ page = 1, perPage = 30, productId, withUser, productOwner }) {
+    const options = omitBy({ productId, productOwner }, isNil);
     if (withUser) {
       return this.find(options)
         .populate({

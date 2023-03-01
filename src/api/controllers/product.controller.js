@@ -71,6 +71,9 @@ exports.updateProduct = async (req, res, next) => {
 exports.getAllProducts = async (req, res, next) => {
   try {
     const query = req.query;
+    if (req.user) {
+      query.productOwner = req.user.userId;
+    }
 
     const products = await Product.list(query);
     return res.status(200).json({

@@ -18,6 +18,7 @@ const { authorize } = require('../middlewares/auth.middleware');
 
 router.route('/').get(getAllProducts);
 router.use(authorize);
+router.route('/protected').get(getAllProducts);
 // router
 //   .route("/")
 //   .get(passport.authenticate("jwt", { session: false }), getAllProducts);
