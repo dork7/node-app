@@ -85,13 +85,13 @@ exports.register = async (req, res, next) => {
 exports.refreshJwtToken = async (req, res, next) => {
   try {
     const cookies = req.cookies;
-    if (!cookies?.jwt) {
+    if (!cookies?.jwtRefresh) {
       throw new APIError({
         status: httpStatus.NOT_FOUND,
         message: 'No jwt cookie',
       });
     }
-    const refreshToken = cookies.jwt;
+    const refreshToken = cookies.jwtRefresh;
     const accessToken = await User.authenticateRefreshToken(refreshToken);
 
     res.send({ accessToken });
@@ -103,7 +103,7 @@ exports.refreshJwtToken = async (req, res, next) => {
 exports.logout = async (req, res, next) => {
   try {
     const cookies = req.cookies;
-    if (!cookies?.jwt) {
+    if (!cookies?.jwtRefresh) {
       throw new APIError({
         // status: httpStatus.NO_CONTENT,
         message: 'Cookie not found so do nothing xD',
