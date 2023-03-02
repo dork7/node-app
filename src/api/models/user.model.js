@@ -203,7 +203,7 @@ userSchema.method({
   },
   getRefreshToken() {
     const payload = {
-      exp: moment().add(30, 'minutes').unix(),
+      exp: moment().add(80, 'minutes').unix(),
       iat: moment().unix(),
       sub: this._id,
       role: this.role,
