@@ -40,9 +40,9 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "id": 1,
-    "productName": "hats",
-    "imageUrl": "https://www.irreverentgent.com/wp-content/uploads/2021/02/Types-of-Mens-Hats-Banner.jpg",
+    "id": 2,
+    "productName": "jackets",
+    "imageUrl": "https://allensolly.abfrl.in/blog/wp-content/uploads/2022/07/Jacket.jpg",
     "price": 2222
 }
  
@@ -62,4 +62,3 @@ Authorization: {{token}}
     "email" : "hamzameh122@gmail.com",
     "mailBody" : "2000"
 }
- 
