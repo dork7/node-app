@@ -193,7 +193,7 @@ userSchema.method({
 
   token() {
     const payload = {
-      exp: moment().add(10, 'seconds').unix(),
+      // exp: moment().add(200, 'hours').unix(),
       iat: moment().unix(),
       userId: this._id,
       role: this.role,

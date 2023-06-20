@@ -1,8 +1,8 @@
-# @host=http://localhost:4000
-@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzcwNTY3MjYsImlhdCI6MTY3NzA1NDkyNiwidXNlcklkIjoiNjNmNWNiYjU5MTdiNDU0YmY4ZWM5NmQ1IiwiYnVzaW5lc3NJZCI6bnVsbH0.OYrVvo_647oQdOuG32jBhveV6RgQaFOVR4XxT4Xt5Uo
+@host=http://localhost:4000
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODc5OTQwODcsImlhdCI6MTY4NzI3NDA4NywidXNlcklkIjoiNjQ5MWMyMjYwZGU5MjI4Y2E2ZDQ4MzBlIiwiYnVzaW5lc3NJZCI6bnVsbH0.PV_2Tr_aQRb5fPUWUvYqFj6oN2jSR0ERwAdm3yCvomY
 
 
-@host=https://node-app-tau.vercel.app/
+# @host=https://node-app-tau.vercel.app/
 
 GET {{host}}/v1/test
 
@@ -12,8 +12,8 @@ POST {{host}}/v1/auth/login
 Content-Type: application/json
 
 {
-    "email" :"dev@gmail.com",
-    "password" : "123"
+    "email" :"dev@dev.co",
+    "password" : "123123"
 }
 
 ###
@@ -22,8 +22,8 @@ POST {{host}}/v1/auth/register
 Content-Type: application/json
 
 {
-    "email" :"dev2@gmail.com",
-    "password" : "123"
+    "email" :"dev@dev.co",
+    "password" : "123123"
 }
 
 
