@@ -31,6 +31,10 @@ const productSchema = new mongoose.Schema(
       // index: true,
       trim: true,
     },
+    imageUrl: {
+      type: String,
+      trim: true,
+    },
     price: {
       type: String,
       trim: true,
@@ -80,7 +84,7 @@ productSchema.virtual('fullName').get(() => {
 productSchema.method({
   transform() {
     const transformed = {};
-    const fields = ['id', 'productId', 'productName', 'productOwner'];
+    const fields = ['id', 'productId', 'productName', 'productOwner', 'imageUrl'];
 
     fields.forEach((field) => {
       transformed[field] = this[field];

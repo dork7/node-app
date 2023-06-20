@@ -1,5 +1,5 @@
 @host=http://localhost:4000
-@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODc5OTQwODcsImlhdCI6MTY4NzI3NDA4NywidXNlcklkIjoiNjQ5MWMyMjYwZGU5MjI4Y2E2ZDQ4MzBlIiwiYnVzaW5lc3NJZCI6bnVsbH0.PV_2Tr_aQRb5fPUWUvYqFj6oN2jSR0ERwAdm3yCvomY
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODcyNzQxOTEsInVzZXJJZCI6IjY0OTFjMjI2MGRlOTIyOGNhNmQ0ODMwZSIsImJ1c2luZXNzSWQiOm51bGx9.8sjRuCy8OA7WzRjwZIxesUjLcQkWu6LoJvFLahFZi1s
 
 
 # @host=https://node-app-tau.vercel.app/
@@ -40,9 +40,10 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-
-    "productName" : "apple111",
-    "price" : "2000"
+    "id": 1,
+    "productName": "hats",
+    "imageUrl": "https://www.irreverentgent.com/wp-content/uploads/2021/02/Types-of-Mens-Hats-Banner.jpg",
+    "price": 2222
 }
  
 ###
