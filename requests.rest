@@ -82,6 +82,9 @@ GET {{host}}/v1/json-store/64d22ef1b841b74b703edd1d
 ###
 GET {{host}}/v1/json-store
 
+###
+DELETE {{host}}/v1/json-store
+
  
 
 

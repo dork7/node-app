@@ -1,5 +1,5 @@
 const express = require("express");
-const { storeData, getDataById, getAllData } = require("../controllers/json.controller");
+const { storeData, getDataById, getAllData, deleteAll } = require("../controllers/json.controller");
 
 const router = express.Router();
 
@@ -12,5 +12,7 @@ router.route("/").post(storeData);
 router.route('/:dataId').get(getDataById);
 
 router.route('/').get(getAllData);
+
+router.route('/').delete(deleteAll);
 
 module.exports = router;
