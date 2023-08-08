@@ -38,3 +38,13 @@ exports.getAllData = async (req, res, next) => {
         return next(error);
     }
 };
+exports.deleteAll = async (req, res, next) => {
+    try {
+        const data = await JSONModel.remove({})
+        return res.status(200).json({
+            data, success: true,
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
