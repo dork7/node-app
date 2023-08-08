@@ -65,6 +65,26 @@ Authorization: {{token}}
  
 
 
+###
+# JSON endpoint
+POST {{host}}/v1/json-store
+Content-Type: application/json
+
+{
+    "dataId" : "123123",
+    "jsonData" : "2000"
+}
+ 
+###
+# JSON
+GET {{host}}/v1/json-store/64d22ef1b841b74b703edd1d
+
+###
+GET {{host}}/v1/json-store
+
+ 
+
+
 
 
 

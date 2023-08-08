@@ -1,5 +1,5 @@
 const express = require("express");
-const { storeData, getDataById } = require("../controllers/json.controller");
+const { storeData, getDataById, getAllData } = require("../controllers/json.controller");
 
 const router = express.Router();
 
@@ -9,6 +9,8 @@ const router = express.Router();
 
 router.route("/").post(storeData);
 
-router.route('/').get(getDataById);
+router.route('/:dataId').get(getDataById);
+
+router.route('/').get(getAllData);
 
 module.exports = router;

@@ -12,9 +12,9 @@ const APIError = require('../utils/APIError');
 const jsonSchema = new mongoose.Schema(
     {
 
-        dataId: {
-            type: String,
-        },
+        // dataId: {
+        //     type: String,
+        // },
         jsonData: {
             type: String,
         }
