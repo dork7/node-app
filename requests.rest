@@ -1,8 +1,8 @@
 @host=http://localhost:4000
-@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODcyNzQxOTEsInVzZXJJZCI6IjY0OTFjMjI2MGRlOTIyOGNhNmQ0ODMwZSIsImJ1c2luZXNzSWQiOm51bGx9.8sjRuCy8OA7WzRjwZIxesUjLcQkWu6LoJvFLahFZi1s
-
-
 # @host=https://node-app-tau.vercel.app/
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODYyOTUyNTMsImlhdCI6MTY4NjI4NjI1MywidXNlcklkIjoiNjNmNzE1YWRmY2JiMGQzMWRjZjZlZTQyIiwiYnVzaW5lc3NJZCI6bnVsbH0.uhfoip6v2qaIXxnkk190g5nrG2UXOEiGaoZEJwTzpVA
+
+
 
 GET {{host}}/v1/test
 
@@ -60,7 +60,8 @@ Authorization: {{token}}
 
 {
     "email" : "hamzameh122@gmail.com",
-    "mailBody" : "2000"
+    "subject" : "test",
+    "mailBody" : "Dear  <p>This is a testing mail </p>  <p>Checking content </p> <br>  <p>Please dont do this </p> <h2>lol </h2>"
 }
  
 

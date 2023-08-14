@@ -21,7 +21,7 @@ exports.authorize = async (req, res, next) => {
   } catch (err) {
     return next(
       new APIError({
-        message: 'Invalid Token',
+        message: `Invalid Token ${err.message}` ,
         status: httpStatus.UNAUTHORIZED,
       })
     );
