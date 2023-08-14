@@ -73,12 +73,12 @@ Content-Type: application/json
 
 {
     "dataId" : "123123",
-    "jsonData" : "2000"
+    "jsonData" : "123123"
 }
  
 ###
 # JSON
-GET {{host}}/v1/json-store/64d22ef1b841b74b703edd1d
+GET {{host}}/v1/json-store/64d9e328ba313bf2c7b336a6
 
 ###
 GET {{host}}/v1/json-store

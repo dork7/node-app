@@ -18,7 +18,8 @@ describe("Post JSON data", () => {
     const testData = "I am the test data"
     it("Store JSON data in mongodb", async () => {
         const res = await request(app).post("/v1/json-store").send({
-            "jsonData": testData
+            "jsonData": testData,
+            testData: true
         });
         expect(res.statusCode).toBe(200);
     });
@@ -39,10 +40,43 @@ describe("Get Stored Data", () => {
     });
 });
 
+
 describe("Delete JSON data", () => {
     it("Delete all the record", async () => {
-        const res = await request(app).delete("/v1/json-store");
+        const res = await request(app).delete("/v1/json-store").query({ testData: true });
         expect(res.statusCode).toBe(200);
 
+        await Promise.all(Array(8).fill(0).map((_, idx) => {
+            return request(app).post("/v1/json-store").send({
+                "jsonData": `THIS IS A TEST DATA ${idx}`,
+                testData: true
+            });
+        }))
+    });
+});
+
+describe("GET DATA BY ID", () => {
+    let recordId = null
+    const testData = 'Single record added'
+
+    it("It should get 404 response", async () => {
+        const res = await request(app).get(`/v1/json-store/${recordId}`)
+        expect(res.statusCode).toBe(404);
+    });
+
+    it("STORE SINGLE RECORD IN DATABASE", async () => {
+        const res = await request(app).post("/v1/json-store").send({
+            "jsonData": testData,
+            testData: true
+        });
+        console.log('res.body.data', res.body.dataCreated._id)
+        recordId = res.body.dataCreated._id
+        expect(res.statusCode).toBe(200);
+    });
+
+    it("GET 1 Record by ID", async () => {
+        const res = await request(app).get(`/v1/json-store/${recordId}`)
+        expect(res.statusCode).toBe(200);
+        expect(res.body.data.jsonData).toBe(testData);
     });
 });
