@@ -5,7 +5,7 @@ const {
   login1,
   refreshJwtToken,
   logout,
-} = require('../controllers/auth.controller');
+} = require('../controllers/auth/auth.controller');
 
 const router = express.Router();
 

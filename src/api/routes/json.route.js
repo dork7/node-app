@@ -1,5 +1,5 @@
 const express = require("express");
-const { storeData, getDataById, getAllData, deleteAll } = require("../controllers/json.controller");
+const { storeData, getDataById, getAllData, deleteAll } = require("../controllers/json/json.controller");
 
 const router = express.Router();
 
