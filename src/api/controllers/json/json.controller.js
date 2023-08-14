@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const JSONModel = require("../models/json.model");
+const JSONModel = require("../../models/json.model");
 
 exports.storeData = async (req, res, next) => {
     try {
@@ -30,7 +30,7 @@ exports.getDataById = async (req, res, next) => {
 exports.getAllData = async (req, res, next) => {
     try {
         const dataId = req.params.dataId;
-        const data = await JSONModel.find();
+        const data = await JSONModel.find().sort({'createdAt' : -1});
         return res.status(200).json({
             data, success: true,
         });

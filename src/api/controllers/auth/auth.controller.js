@@ -1,7 +1,7 @@
 const { success, error, info } = require('consola');
-const { sendMail } = require('../services/emailProvider');
-const User = require('../models/user.model');
-const APIError = require('../utils/APIError');
+const { sendMail } = require('../../services/emailProvider');
+const User = require('../../models/user.model');
+const APIError = require('../../utils/APIError');
 const httpStatus = require('http-status');
 
 exports.login = async (req, res, next) => {
