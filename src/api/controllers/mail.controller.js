@@ -5,6 +5,7 @@ exports.sendMail = async (req, res, next) => {
   try {
     const mailRes = await sendMail({
       email: req.body.email,
+      subject: req.body.subject ?? '',
       mailBody: req.body.mailBody,
     });
     info({ message: mailRes });

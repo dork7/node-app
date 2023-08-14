@@ -239,8 +239,7 @@ userSchema.statics = {
   async authenticateUser({ email, password }, next) {
     const user = await this.findOne({ email: email }, (error, doc) => {
       if (error) {
-        console.log('error', error);
-        throw new APIError({
+         throw new APIError({
           message: `Mongoose error `,
           error: error,
           // status: httpStatus.INTERNAL_SERVER_ERROR,
