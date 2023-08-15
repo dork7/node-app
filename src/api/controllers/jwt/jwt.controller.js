@@ -1,7 +1,7 @@
 const { success, error, info } = require("consola");
 const httpStatus = require("http-status");
 const jwt = require("jsonwebtoken");
-const { jwtSecret } = require("../../config/vars");
+const { jwtSecret } = require("../../../config/vars");
 let refreshTokens = []; // store refresh token in db
 exports.generateAccessToken = async (req, res, next) => {
   try {
