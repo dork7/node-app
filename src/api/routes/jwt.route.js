@@ -3,7 +3,7 @@ const {
   refreshToken,
   generateAccessToken,
   deleteRefreshToken,
-} = require("../controllers/jwt.controller");
+} = require("../controllers/jwt/jwt.controller");
 
 const router = express.Router();
 
