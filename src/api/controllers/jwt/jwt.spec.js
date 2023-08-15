@@ -15,29 +15,41 @@ afterEach(async () => {
 
 
 describe("Generate token", () => {
-    const refreshToken = null
+    let reqRefreshToken = null
     it("API: /v1/jwt ", async () => {
         const res = await request(app).post("/v1/jwt").send({
             username: "username",
         });
         const { success, accessToken, refreshToken } = res.body;
+        reqRefreshToken = refreshToken
         expect(res.statusCode).toBe(200);
         expect(success).toBe(true);
         expect(accessToken).not.toBe("");
         expect(refreshToken).not.toBe("");
-        refreshToken = refreshToken
     });
 
 
     it("API: /v1/jwt/refresh-token ", async () => {
         const res = await request(app).post("/v1/jwt/refresh-token").send({
-            refreshToken
+            refreshToken: reqRefreshToken
         });
-        console.log('res', res)
-        // expect(res.statusCode).toBe(200);
-        // expect(success).toBe(true);
-        // expect(accessToken).not.toBe("");
-        // expect(refreshToken).not.toBe("");
+         const { success, accessToken } = res.body;
+        expect(res.statusCode).toBe(200);
+        expect(success).toBe(true);
+        expect(accessToken).not.toBe("");
+        
+    });
+    
+    it("API wrong reqfreshToken: /v1/jwt/refresh-token ", async () => {
+        const res = await request(app).post("/v1/jwt/refresh-token").send({
+            refreshToken: 'random token'
+        });
+        const { success, message } = res.body;
+        console.log('res.body', res.body)
+        expect(res.statusCode).toBe(400);
+        expect(success).toBe(false);
+        expect(message).toBe('Invalid refresh Token');
+ 
     });
 
 
