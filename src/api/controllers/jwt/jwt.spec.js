@@ -14,15 +14,31 @@ afterEach(async () => {
 
 
 
-describe("Post JSON data", () => {
-    const testData = "I am the test data"
-    it("Store JSON data in mongodb", async () => {
+describe("Generate token", () => {
+    const refreshToken = null
+    it("API: /v1/jwt ", async () => {
         const res = await request(app).post("/v1/jwt").send({
             username: "username",
-         });
+        });
+        const { success, accessToken, refreshToken } = res.body;
         expect(res.statusCode).toBe(200);
-        expect(res.body.success).toBe(true);
-        expect(res.body.accessToken).not.toBe("");
-        expect(res.body.refreshToken).not.toBe("");
+        expect(success).toBe(true);
+        expect(accessToken).not.toBe("");
+        expect(refreshToken).not.toBe("");
+        refreshToken = refreshToken
     });
+
+
+    it("API: /v1/jwt/refresh-token ", async () => {
+        const res = await request(app).post("/v1/jwt/refresh-token").send({
+            refreshToken
+        });
+        console.log('res', res)
+        // expect(res.statusCode).toBe(200);
+        // expect(success).toBe(true);
+        // expect(accessToken).not.toBe("");
+        // expect(refreshToken).not.toBe("");
+    });
+
+
 });
