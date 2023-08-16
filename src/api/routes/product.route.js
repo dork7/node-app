@@ -6,7 +6,7 @@ const {
   updateProduct,
   deleteProducts,
   searchProducts,
-} = require('../controllers/product.controller');
+} = require('../controllers/product/product.controller');
 const passport = require('passport');
 const jwtPass = require('../../config/passport')(passport);
 const router = express.Router();

@@ -12,6 +12,13 @@ let reqRefreshToken = null;
 /* Connecting to the database before each test. */
 beforeEach(async () => {
     await mongoose.connect(process.env.MONGO_URI);
+
+    const res = await request(app).post("/v1/jwt").send({
+        username: "username",
+    });
+    const { refreshToken } = res.body;
+    reqRefreshToken = refreshToken;
+
 });
 
 /* Closing database connection after each test. */
@@ -21,13 +28,11 @@ afterEach(async () => {
 
 
 describe("Generate token", () => {
-    let reqRefreshToken = null;
     it("API: /v1/jwt", async () => {
         const res = await request(app).post("/v1/jwt").send({
             username: "username",
         });
         const { success, accessToken, refreshToken } = res.body;
-        reqRefreshToken = refreshToken;
         expect(res.statusCode).toBe(200);
         expect(success).toBe(true);
         expect(accessToken).not.toBe("");
@@ -37,19 +42,6 @@ describe("Generate token", () => {
 });
 
 describe("Generate token and refresh it", () => {
-    let reqRefreshToken = null;
-    it("API: /v1/jwt", async () => {
-        const res = await request(app).post("/v1/jwt").send({
-            username: "username",
-        });
-        const { success, accessToken, refreshToken } = res.body;
-        reqRefreshToken = refreshToken;
-        expect(res.statusCode).toBe(200);
-        expect(success).toBe(true);
-        expect(accessToken).not.toBe("");
-        expect(refreshToken).not.toBe("");
-    });
-
 
     it("API: /v1/jwt/refresh-token", async () => {
         const res = await request(app).post("/v1/jwt/refresh-token").send({
@@ -74,24 +66,12 @@ describe("Generate token and refresh it", () => {
 
 
 describe("Generate token and delete it", () => {
-    it("API: /v1/jwt", async () => {
-        const res = await request(app).post("/v1/jwt").send({
-            username: "username",
-        });
-        const { success, accessToken, refreshToken } = res.body;
-        reqRefreshToken = refreshToken;
-        expect(res.statusCode).toBe(200);
-        expect(success).toBe(true);
-        expect(accessToken).not.toBe("");
-        expect(refreshToken).not.toBe("");
-    });
-
 
     it("API: delete reqRefreshToken: /v1/jwt/delete-refresh-token", async () => {
         const res = await request(app).delete("/v1/jwt/delete-refresh-token").send({
             refreshToken: reqRefreshToken
         });
-        const { success, message ,tokenDeleted} = res.body;
+        const { success, message, tokenDeleted } = res.body;
         expect(res.statusCode).toBe(200);
         expect(success).toBe(true);
         expect(message).toBe("Deleted Refresh Token");
