@@ -57,10 +57,19 @@ exports.refreshToken = async (req, res, next) => {
 exports.deleteRefreshToken = async (req, res, next) => {
   try {
     const refreshToken = req.body.refreshToken;
+
+    // if (refreshTokens.findIndex((item) => item === refreshToken) === -1) {
+    //   return res.status(httpStatus.NOT_FOUND).json({
+    //     success: true,
+    //     message : "No token found",
+    //   });
+    // }
+
     refreshTokens = refreshTokens.filter((item) => item !== refreshToken);
     return res.status(httpStatus.OK).json({
       success: true,
       message: "Deleted Refresh Token",
+      tokenDeleted: refreshToken
     });
   } catch (error) {
     return next(error);
