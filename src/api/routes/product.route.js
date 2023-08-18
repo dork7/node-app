@@ -17,6 +17,7 @@ const { authorize } = require('../middlewares/auth.middleware');
  */
 
 router.route('/').get(getAllProducts);
+router.route('/:productId').get(getProductById);
 router.use(authorize);
 router.route('/protected').get(getAllProducts);
 // router
@@ -25,7 +26,6 @@ router.route('/protected').get(getAllProducts);
 
 router.route('/').post(addProduct);
 
-router.route('/:productId').get(getProductById);
 
 router.route('/:productId').put(updateProduct);
 

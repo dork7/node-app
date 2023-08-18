@@ -35,10 +35,10 @@ exports.addProduct = async (req, res, next) => {
 exports.getProductById = async (req, res, next) => {
   try {
     const productId = req.params.productId;
-    const user = await Product.get(productId);
-    const userTransformed = Product.transform();
+    const product = await Product.get(productId);
+    const productTransformed = product.transform();
     return res.status(200).json({
-      user: userTransformed,
+      product: productTransformed,
       success: true,
     });
   } catch (error) {

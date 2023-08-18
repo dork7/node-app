@@ -1,4 +1,3 @@
-const { generateAccessToken } = require("./jwt.controller");
 const request = require('supertest');
 const app = require("../../../config/express");
 const mongoose = require("mongoose");
