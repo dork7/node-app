@@ -8,7 +8,6 @@ exports.login = async (req, res, next) => {
   try {
     // user authentication
     const userData = req.body;
-    console.log('userData', userData);
     const { email, accessToken, refreshToken } = await User.authenticateUser(
       userData,
       next

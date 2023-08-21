@@ -17,15 +17,15 @@ const { authorize } = require('../middlewares/auth.middleware');
  */
 
 router.route('/').get(getAllProducts);
-router.route('/:productId').get(getProductById);
-router.use(authorize);
-router.route('/protected').get(getAllProducts);
+// router.use(authorize);
+router.route('/protected').get(authorize,getAllProducts);
 // router
 //   .route("/")
 //   .get(passport.authenticate("jwt", { session: false }), getAllProducts);
 
 router.route('/').post(addProduct);
 
+router.route('/:productId').get(getProductById);
 
 router.route('/:productId').put(updateProduct);
 

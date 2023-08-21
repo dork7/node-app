@@ -6,7 +6,7 @@ require("../../../config/express");
 
 
 let reqRefreshToken = null;
-let userAccessToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODYyOTUyNTMsImlhdCI6MTY4NjI4NjI1MywidXNlcklkIjoiNjNmNzE1YWRmY2JiMGQzMWRjZjZlZTQyIiwiYnVzaW5lc3NJZCI6bnVsbH0.uhfoip6v2qaIXxnkk190g5nrG2UXOEiGaoZEJwTzpVA'
+let userAccessToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTI1OTU4NzgsInVzZXJJZCI6IjY0OTFjMjI2MGRlOTIyOGNhNmQ0ODMwZSIsImJ1c2luZXNzSWQiOm51bGx9.osuiiO86H99njcrBgKCroOw9uo46Ok0EkKlnCZUJRPk'
 
 
 /* Connecting to the database before each test. */

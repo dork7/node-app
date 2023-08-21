@@ -121,7 +121,7 @@ productSchema.statics = {
       }
 
       throw new APIError({
-        message: 'User does not exist',
+        message: `Product does not exist with this id - ${id}`,
         status: httpStatus.NOT_FOUND,
       });
     } catch (error) {
