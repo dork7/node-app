@@ -58,5 +58,11 @@ describe("Get Products", () => {
         expect(count).toBeGreaterThan(0);
     });
 
-
+    // TODO: Write auth test cases first
+    it("API: /v1/product/protected with wrong token", async () => {
+        const res = await request(app).get("/v1/product/protected").set('Authorization', 'Random token')
+        const { message, code } = res.body;
+        expect(res.statusCode).toBe(401);
+        expect(message).toBe('Invalid Token jwt malformed');
+    });
 });

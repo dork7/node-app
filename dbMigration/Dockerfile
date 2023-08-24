@@ -8,4 +8,6 @@ RUN chmod +x migrateData.sh
 
 EXPOSE 27017
 
-# CMD '/db/migrateData.sh'
+# ENTRYPOINT ["sh" , "/db/migrateData.sh"]
+CMD './migrateData.sh'
+
