@@ -4,7 +4,7 @@ const { sendMail } = require("../../services/emailProvider");
 exports.sendMail = async (req, res, next) => {
   try {
     const mailRes = await sendMail({
-      email: req.body.email,
+      email: Array.isArray(req.body.email) ? req.body.email.join() : req.body.email,
       subject: req.body.subject ?? '',
       mailBody: req.body.mailBody,
     });

@@ -50,7 +50,7 @@ exports.sendMail = async (mailObj) => {
   const emailConfig = {
     from: "dork7",
     to: mailObj.email,
-    subject: "Testing Mail",
+    subject: mailObj.subject,
     text: `${mailObj.mailBody}`,
     html: `<p>${mailObj.mailBody}</p>`,
   };
