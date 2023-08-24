@@ -32,7 +32,7 @@ exports.storeEmails = async (emailDataSet) => {
       // bulk add
       const dataSet = email.map(email => {return { email, subject, mailBody }})
       console.log('dataSet', dataSet)
-      const mailSaved = await new mailModel.insertMany(dataSet)
+      const mailSaved = await mailModel.insertMany(dataSet)
       return mailSaved
     }
 
