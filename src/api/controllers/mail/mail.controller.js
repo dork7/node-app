@@ -1,5 +1,5 @@
 const { success, error, info } = require("consola");
-const { sendMail } = require("../services/emailProvider");
+const { sendMail } = require("../../services/emailProvider");
 
 exports.sendMail = async (req, res, next) => {
   try {

@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon ./src/index.js",
+    "dev:local": "cross-env NODE_ENV=development.local nodemon ./src/index.js",
     "precommit": "yar6n lint",
     "_prestart": "yarn docs",
     "_start": "cross-env NODE_ENV=production pm2 start ./src/index.js",
