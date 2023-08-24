@@ -9,12 +9,11 @@ const APIError = require('../utils/APIError');
  * @private
  */
 
-const jsonSchema = new mongoose.Schema(
+const emailSchema = new mongoose.Schema(
     {
-        testData : Boolean,
-        jsonData: {
-            type: String,
-        }
+        email: String,
+        subject: String,
+        mailBody: String,
     },
     {
         timestamps: true,
@@ -24,19 +23,14 @@ const jsonSchema = new mongoose.Schema(
 /**
  * Statics
  */
-jsonSchema.statics = {
-    /**
-     * Get user
-     *
-     * @param {ObjectId} id - The objectId of user.
-     * @returns {Promise<User, APIError>}
-     */
-    async get(id) {
+emailSchema.statics = {
+
+    async getEmailsById(emailId) {
         try {
             let data;
 
-            if (mongoose.Types.ObjectId.isValid(id)) {
-                data = await this.findById(id).exec();
+            if (emailId) {
+                data = await this.find({ email: emailId }).exec();
             }
 
             if (data) {
@@ -54,4 +48,4 @@ jsonSchema.statics = {
 }
 
 
-module.exports = mongoose.model('JSONData', jsonSchema);
+module.exports = mongoose.model('emails', emailSchema);
