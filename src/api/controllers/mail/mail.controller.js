@@ -13,7 +13,7 @@ exports.sendMail = async (req, res, next) => {
     info({ message: mailRes });
     return res.status(200).json({
       success: true,
-      mailRes,
+      data: mailRes,
       recCount: storedMail
     });
   } catch (error) {
@@ -43,10 +43,10 @@ exports.storeEmails = async (emailDataSet) => {
 exports.getEmailsById = async (req, res, next) => {
   try {
     const emailId = req.params.emailId
-     const emailsSaved = await mailModel.getEmailsById(emailId)
+    const emailsSaved = await mailModel.getEmailsById(emailId)
     return res.status(200).json({
       success: true,
-      data :emailsSaved
+      data: emailsSaved
     });
   } catch (error) {
     return error
