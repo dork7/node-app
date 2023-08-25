@@ -73,7 +73,7 @@ describe("Login/logout", () => {
 
     it("API: /v1/auth/login Wrong email", async () => {
         const res = await request(app).post("/v1/auth/login").send({
-            "email": "wrongTestEail@email.com",
+            "email": faker.internet.email(),
             "password": mockPassword
         });
         const { message } = res.body;
