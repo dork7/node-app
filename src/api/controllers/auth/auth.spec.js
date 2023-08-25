@@ -2,6 +2,7 @@ const request = require('supertest');
 const app = require("../../../config/express");
 const mongoose = require("mongoose");
 const { refreshJwtToken } = require('./auth.controller');
+const { faker } = require('@faker-js/faker');
 
 require("../../../config/express");
 
@@ -22,10 +23,8 @@ afterEach(async () => {
 
 describe("Login/logout", () => {
 
-    const mockEmail = "dev@dev.co"
-    const mockPassword = "123123"
-
-
+    const mockEmail = faker.internet.email()
+    const mockPassword = faker.internet.password()
 
     it("API: /v1/auth/register", async () => {
         const res = await request(app).post("/v1/auth/register").send({
@@ -74,7 +73,7 @@ describe("Login/logout", () => {
 
     it("API: /v1/auth/login Wrong email", async () => {
         const res = await request(app).post("/v1/auth/login").send({
-            "email": "wrongTestEail@email.com",
+            "email": faker.internet.email(),
             "password": mockPassword
         });
         const { message } = res.body;

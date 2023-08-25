@@ -9,12 +9,12 @@ exports.sendMail = async (req, res, next) => {
       subject: req.body.subject ?? '',
       mailBody: req.body.mailBody,
     });
-    // const storedMail = await this.storeEmails(req.body)
-    // info({ message: mailRes });
+    const storedMail = await this.storeEmails(req.body)
+    info({ message: mailRes });
     return res.status(200).json({
       success: true,
-      mailRes,
-      // storedMail
+      data: mailRes,
+      recCount: storedMail
     });
   } catch (error) {
     return next(error);
@@ -24,9 +24,16 @@ exports.sendMail = async (req, res, next) => {
 exports.storeEmails = async (emailDataSet) => {
   try {
     const { email, subject, mailBody } = emailDataSet
-    const mailSaved = await new mailModel(emailDataSet).save()
-    console.log('mailSaved', mailSaved)
-    return mailSaved
+    if (!Array.isArray(email)) {
+      const mailSaved = await new mailModel(emailDataSet).save()
+      return mailSaved
+    }
+    else {
+      // bulk add
+      const dataSet = email.map(email => { return { email, subject, mailBody } })
+      const mailSaved = await mailModel.insertMany(dataSet)
+      return mailSaved
+    }
 
   } catch (error) {
     return error
@@ -35,7 +42,13 @@ exports.storeEmails = async (emailDataSet) => {
 
 exports.getEmailsById = async (req, res, next) => {
   try {
-
+    const emailId = req.params.emailId
+    const emailsSaved = await mailModel.getEmailsById(emailId)
+    return res.status(200).json({
+      success: true,
+      data: emailsSaved
+    });
   } catch (error) {
+    return error
   }
 };

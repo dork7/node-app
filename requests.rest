@@ -64,10 +64,16 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "email" : "hamzameh122@gmail.com",
+    "email" : ["hamzameh122@gmail.com", "hamxa2266@gmail.com"],
+    "email2" : "hamzameh122@gmail.com",
     "subject" : "test",
     "mailBody" : "Dear  <p>This is a testing mail </p>  <p>Checking content </p> <br>  <p>Please dont do this </p> <h2>lol </h2>"
 }
+ 
+
+###
+# get emails
+GET {{host}}/v1/mail/hamzameh122@gmail.com
  
 
 
