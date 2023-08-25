@@ -28,15 +28,13 @@ emailSchema.statics = {
     async getEmailsById(emailId) {
         try {
             let data;
-
-            if (emailId) {
-                data = await this.find({ email: emailId }).exec();
+             if (emailId) 
+            {
+                data = await this.find({ email: emailId })
             }
-
             if (data) {
                 return data;
             }
-
             throw new APIError({
                 message: 'Data doesnt exist',
                 status: httpStatus.NOT_FOUND,
