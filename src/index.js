@@ -13,7 +13,10 @@ const { redisClient } = require('./config/redis');
 mongoose.connect();
 
 // connect to redis
-// redisClient.connect();
+
+if (process.env.NODE_ENV === "development.local") {
+  redisClient.connect();
+}
 
 
 app.use(
