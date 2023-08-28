@@ -7,9 +7,17 @@ const mongoose = require('./config/mongoose');
 const { success, error } = require('consola');
 const fileUpload = require('express-fileupload');
 const color = require('colors');
+const { redisClient } = require('./config/redis');
 
 // open mongoose connection
 mongoose.connect();
+
+// connect to redis
+
+if (process.env.NODE_ENV === "development.local") {
+  redisClient.connect();
+}
+
 
 app.use(
   fileUpload({

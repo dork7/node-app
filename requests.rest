@@ -98,6 +98,21 @@ GET {{host}}/v1/json-store
 DELETE {{host}}/v1/json-store
 
  
+###
+POST {{host}}/v1/redis/lol2
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "test Data" : ["hamzameh122@gmail.com", "hamxa2266@gmail.com"]
+}
+ 
+###
+GET {{host}}/v1/redis/lol
+
+ 
+
+ 
 
 
 
