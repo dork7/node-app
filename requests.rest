@@ -88,11 +88,12 @@ Content-Type: application/json
 }
  
 ###
+GET {{host}}/v1/json-store
+
+###
 # JSON
 GET {{host}}/v1/json-store/64d9e328ba313bf2c7b336a6
 
-###
-GET {{host}}/v1/json-store
 
 ###
 DELETE {{host}}/v1/json-store
