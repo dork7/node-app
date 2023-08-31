@@ -14,7 +14,7 @@ Content-Type: application/json
 }
  
 ###
-GET {{host}}/v1/json-store
+GET {{host}}/v1/json-store?v=2
 
 ###
 # JSON
