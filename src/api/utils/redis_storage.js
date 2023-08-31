@@ -4,7 +4,7 @@ const { redisExpTime } = require("../../config/vars");
 exports.storeDataRedis = async (key, data) => {
   try {
     redisClient.set(key, JSON.stringify(data));
-    redisClient.expire(key, redisExpTime);
+    // redisClient.expire(key,15);
     return true;
   } catch (error) {
     return error
