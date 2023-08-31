@@ -16,13 +16,28 @@ const { authorize } = require('../middlewares/auth.middleware');
 const { graphqlHTTP } = require('express-graphql');
 
 const os = require('os');
+const { testingMiddleWare, testingMiddleWareAfter } = require('../middlewares/testing');
+const httpStatus = require('http-status');
 /**
  * GET v1/status
  */
-router.get('/test', (req, res) => {
-  console.log('req', req);
-  res.send('OK');
-});
+router.get('/test', testingMiddleWare, async (req, res , next) => {
+
+  const resToSend = await new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const data = {
+        count: Math.random()*10,
+        status: httpStatus.OK
+      }
+
+      resolve(data)
+    }, 1000)
+  })
+
+
+  next()
+ return res.send(resToSend);
+}, testingMiddleWareAfter);
 
 router.get('/', (req, res, next) => {
   [1, 2, 3, 4, 5].map((i) => {
