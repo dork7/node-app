@@ -11,6 +11,7 @@ const smsRoute = require('./sms.route');
 const sseRoute = require('./sse.route');
 const redisRoute = require('./redis.route');
 const jsonRoute = require('./json.route');
+const aiRoute = require('./ai.route');
 // const longPooling = require('./longPooling.route');
 const { authorize } = require('../middlewares/auth.middleware');
 const { graphqlHTTP } = require('express-graphql');
@@ -43,6 +44,8 @@ router.use('/sms', smsRoute);
 router.use('/sse', sseRoute);
 router.use('/redis', redisRoute);
 router.use('/json-store', jsonRoute);
+
+router.use('/ai', aiRoute);
 
 // router.use('/long-pooling', longPooling);
 
