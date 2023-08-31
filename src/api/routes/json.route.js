@@ -12,7 +12,8 @@ router.route("/").post(storeData);
 
 router.route('/:dataId').get(getDataById);
 
-router.route('/').get(cachingMiddleWare ,getAllData);
+router.route('/').get( getAllData);
+// router.route('/').get(cachingMiddleWare ,getAllData);
 
 router.route('/').delete(deleteAll);
 
