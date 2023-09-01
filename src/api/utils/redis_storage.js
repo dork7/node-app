@@ -3,7 +3,7 @@ const { redisExpTime } = require("../../config/vars");
 
 exports.storeDataRedis = async (key, data) => {
   try {
-    redisClient.set(key, JSON.stringify(data));
+    redisClient.set(key, data);
     redisClient.expire(key, redisExpTime);
     return true;
   } catch (error) {
@@ -13,7 +13,7 @@ exports.storeDataRedis = async (key, data) => {
 exports.getDataRedis = async (key) => {
   try {
     const val = await redisClient.get(key);
-    console.log('val', val)
+    // console.log('val', val)
     return JSON.parse(val)
   } catch (error) {
     return error
