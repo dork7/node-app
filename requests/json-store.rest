@@ -18,7 +18,7 @@ GET {{host}}/v1/json-store?v=2
 
 ###
 # JSON
-GET {{host}}/v1/json-store/64d9e328ba313bf2c7b336a6
+GET {{host}}/v1/json-store/64f6c7dd7fe013feb97f6b74
 
 
 ###

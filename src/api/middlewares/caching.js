@@ -10,14 +10,11 @@ exports.cachingMiddleWare = async (req, res, next) => {
     try {
         let isCached = false
         // if no connection
-        if (redisClient.isOpen) {            
+        if (redisClient.isOpen) {
             const redisResp = await getDataRedis(req.originalUrl)
             if (redisResp) {
-                  const { success, count } =  (redisResp)
-                 if (count > 0 && success) {
-                    res.setHeader('isCached', true)
-                    return res.status(200).send(redisResp);
-                }
+                res.setHeader('isCached', true)
+                return res.status(200).send(redisResp);
             }
         }
 
@@ -27,10 +24,9 @@ exports.cachingMiddleWare = async (req, res, next) => {
         // // Overriding the send function to capture response data
         res.send = function (data) {
             // You can capture or modify 'data' here before sending the response
-            console.log('Captured response data:', data);
+            // console.log('Captured response data:', data);
             const dataStored = storeDataRedis(req.originalUrl, data)
-            if (!isCached) 
-            {
+            if (!isCached) {
                 res.setHeader('isCached', false)
                 originalSend.call(this, data);
             }

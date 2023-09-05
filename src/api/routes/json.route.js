@@ -10,10 +10,10 @@ const router = express.Router();
 
 router.route("/").post(storeData);
 
-router.route('/:dataId').get(getDataById);
+router.route('/:dataId').get(cachingMiddleWare, getDataById);
 
 // router.route('/').get( getAllData);
-router.route('/').get(cachingMiddleWare ,getAllData);
+router.route('/').get(cachingMiddleWare, getAllData);
 
 router.route('/').delete(deleteAll);
 
