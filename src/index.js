@@ -16,8 +16,10 @@ mongoose.connect();
 
 if (process.env.NODE_ENV === "development.local") {
   redisClient.connect();
+  redisClient.on('error', (err) => {
+    console.error('Redis Client Error', err);
+  });
 }
-
 
 app.use(
   fileUpload({
@@ -28,6 +30,12 @@ app.use(
 app.listen(port, () =>
   success({ message: `server started on port ${port} (${env})` })
 );
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  // Perform cleanup or any necessary actions
+  // process.exit(1); // Exit the application gracefully
+});
 
 /**
  * Exports express

@@ -4,20 +4,17 @@ const { jwtSecret } = require('../../config/vars');
 const APIError = require('../utils/APIError');
 const jwt = require('jsonwebtoken');
 const { redisClient } = require('../../config/redis');
-const { storeDataRedis, getDataRedis } = require('../utils/redis_storage');
+const { setCacheData, getCachedData } = require('../utils/redis_storage');
 
 exports.cachingMiddleWare = async (req, res, next) => {
     try {
         let isCached = false
         // if no connection
-        if (redisClient.isOpen) {
-            const redisResp = await getDataRedis(req.originalUrl)
-            if (redisResp) {
-                res.setHeader('isCached', true)
-                return res.status(200).send(redisResp);
-            }
+        const cachedResp = await getCachedData(req.originalUrl)
+        if (cachedResp) {
+            res.setHeader('isCached', true)
+            return res.status(200).send(cachedResp);
         }
-
 
         const originalSend = res.send;
 
@@ -25,7 +22,7 @@ exports.cachingMiddleWare = async (req, res, next) => {
         res.send = function (data) {
             // You can capture or modify 'data' here before sending the response
             // console.log('Captured response data:', data);
-            const dataStored = storeDataRedis(req.originalUrl, data)
+            const dataCached = setCacheData(req.originalUrl, data)
             if (!isCached) {
                 res.setHeader('isCached', false)
                 originalSend.call(this, data);
