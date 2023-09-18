@@ -10,9 +10,11 @@ exports.cachingMiddleWare = async (req, res, next) => {
     try {
         let isCached = false
         // if no connection
-        const cachedResp = await getCachedData(req.originalUrl)
+        const cachedResp = await getCachedData(req.originalUrl);
         if (cachedResp) {
-            res.setHeader('isCached', true)
+            res.setHeader('isCached', true);
+            // res.setHeader('content-type', 'application/json');
+            console.log(res)
             return res.status(200).send(cachedResp);
         }
 
