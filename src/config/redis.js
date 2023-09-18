@@ -7,6 +7,7 @@ const CONF = {
   port: redisPort,
 };
 
+
 exports.redisClient = redis.createClient(CONF);
 // redisClient.on("error", (err) => console.log("Redis Client Error", err));
 // (async () => {

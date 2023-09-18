@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const JSONModel = require("../../models/json.model");
 const { omitBy, isNil } = require("lodash");
+const { redisClient } = require("../../../config/redis");
+const { storeDataRedis, getDataRedis } = require("../../utils/redis_storage");
+const logger = require("../../../config/logger");
 
 exports.storeData = async (req, res, next) => {
     try {
@@ -31,16 +34,45 @@ exports.getDataById = async (req, res, next) => {
 };
 exports.getAllData = async (req, res, next) => {
     try {
-        const dataId = req.params.dataId;
-        const data = await JSONModel.find().sort({ 'createdAt': -1 });
+        let data = null;
+        data = await JSONModel.find().sort({ 'createdAt': -1 });
         return res.status(200).json({
-            count: data.length,
-            data, success: true,
+            count: data?.length,
+            success: true,
+            data,
         });
     } catch (error) {
         return next(error);
     }
 };
+// exports.getAllData = async (req, res, next) => {
+//     try {
+//         let isCached = false;
+//         let data = null;
+//         let redisResp = null
+
+//         if (redisClient.isOpen) {
+//             redisResp = await getDataRedis(req.originalUrl)
+//         }
+//         if (redisResp) {
+//             data = redisResp
+//             isCached = true
+//         }
+//         else {
+//             data = await JSONModel.find().sort({ 'createdAt': -1 });
+//             storeDataRedis(req.originalUrl, data)
+//         }
+//         res.setHeader('isCached', isCached)
+//         return res.status(200).json({
+//             count: data?.length,
+//             success: true,
+//             data,
+//         });
+//     } catch (error) {
+//         return next(error);
+//     }
+// };
+
 exports.deleteAll = async (req, res, next) => {
     try {
         const testData = req.query.testData

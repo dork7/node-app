@@ -1,20 +1,28 @@
 const { redisClient } = require("../../config/redis");
 const { redisExpTime } = require("../../config/vars");
 
-exports.storeDataRedis = async (key, data) => {
+
+const cacheMap = {}
+exports.setCacheData = async (key, data) => {
   try {
-    redisClient.set(key, JSON.stringify(data));
-    // redisClient.expire(key,15);
+    if (redisClient?.isReady) {
+      redisClient.set(key, data);
+      redisClient.expire(key, redisExpTime);
+      return true
+    }
+    cacheMap[key] = data
     return true;
   } catch (error) {
     return error
   }
 };
-exports.getDataRedis = async (key) => {
+exports.getCachedData = async (key) => {
   try {
-    const val = await redisClient.get(key);
-    // console.log('val', val)
-    return JSON.parse(val)
+    if (redisClient?.isReady) {
+      const val = await redisClient.get(key);
+       return JSON.parse(val)
+    }
+    return cacheMap[key]
   } catch (error) {
     return error
   }
