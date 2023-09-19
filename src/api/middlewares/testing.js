@@ -4,7 +4,7 @@ const { jwtSecret } = require('../../config/vars');
 const APIError = require('../utils/APIError');
 const jwt = require('jsonwebtoken');
 const { redisClient } = require('../../config/redis');
-const { storeDataRedis, getDataRedis } = require('../utils/redis_storage');
+const { storeDataRedis, getDataRedis } = require('../utils/cacheHandler');
 
 /**
  * testing middle ware for experimentation

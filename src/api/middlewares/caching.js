@@ -4,7 +4,7 @@ const { jwtSecret } = require('../../config/vars');
 const APIError = require('../utils/APIError');
 const jwt = require('jsonwebtoken');
 const { redisClient } = require('../../config/redis');
-const { setCacheData, getCachedData } = require('../utils/redis_storage');
+const { setCacheData, getCachedData } = require('../utils/cacheHandler');
 
 exports.cachingMiddleWare = async (req, res, next) => {
     try {

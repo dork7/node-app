@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const JSONModel = require("../../models/json.model");
 const { omitBy, isNil } = require("lodash");
 const { redisClient } = require("../../../config/redis");
-const { storeDataRedis, getDataRedis } = require("../../utils/redis_storage");
+const { storeDataRedis, getDataRedis } = require("../../utils/cacheHandler");
 const logger = require("../../../config/logger");
 
 exports.storeData = async (req, res, next) => {
