@@ -6,20 +6,31 @@ cloudinary.config({
   api_secret: cloudinaryConfig.api_secret,
 });
 
-exports.uploadImageOnCloudinary = async (imagePaths) => {
-  console.log("cloudinaryConfig", cloudinaryConfig);
-  const uploadResp = await imagePaths.map(async (path) => {
-    return cloudinary.uploader.upload(path).then((data) => {
+exports.uploadImageOnCloudinary = async (imagePaths, user = "dev") => {
+  const response = await imagePaths?.map(async (path) => {
+    return cloudinary.uploader.upload(path, {
+      folder: `node-app/${user}`, // Use the user's identifier as a folder name
+      tags: [user]
+    }).then((data) => {
       return data;
     });
   });
-  return Promise.all(uploadResp);
+  return Promise.all(response);
 };
 exports.deleteImageFromCloudinary = async (imageIds) => {
-  const deleteResp = await imageIds.map(async (id) => {
+  const response = await imageIds.map(async (id) => {
     return cloudinary.uploader.destroy(id).then((data) => {
       return data;
     });
   });
-  return Promise.all(deleteResp);
+  return Promise.all(response);
+};
+
+exports.getImagesFromCloudinary = async (userId) => {
+  const response = await cloudinary.api.resources_by_tag(userId)
+  return response
+};
+exports.deleteImagesByTag = async (userId) => {
+  const response = await cloudinary.api.delete_resources_by_tag(userId)
+  return response
 };
