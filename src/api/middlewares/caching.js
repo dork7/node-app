@@ -4,15 +4,17 @@ const { jwtSecret } = require('../../config/vars');
 const APIError = require('../utils/APIError');
 const jwt = require('jsonwebtoken');
 const { redisClient } = require('../../config/redis');
-const { setCacheData, getCachedData } = require('../utils/redis_storage');
+const { setCacheData, getCachedData } = require('../utils/cacheHandler');
 
 exports.cachingMiddleWare = async (req, res, next) => {
     try {
         let isCached = false
         // if no connection
-        const cachedResp = await getCachedData(req.originalUrl)
+        const cachedResp = await getCachedData(req.originalUrl);
         if (cachedResp) {
-            res.setHeader('isCached', true)
+            res.setHeader('isCached', true);
+            // res.setHeader('content-type', 'application/json');
+            console.log(res)
             return res.status(200).send(cachedResp);
         }
 

@@ -1,5 +1,5 @@
 @host=http://localhost:4000
-@host=https://node-app-tau.vercel.app/
+# @host=https://node-app-tau.vercel.app/
 # @token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTI1OTU4NzgsInVzZXJJZCI6IjY0OTFjMjI2MGRlOTIyOGNhNmQ0ODMwZSIsImJ1c2luZXNzSWQiOm51bGx9.osuiiO86H99njcrBgKCroOw9uo46Ok0EkKlnCZUJRPk
 
 
@@ -14,11 +14,11 @@ Content-Type: application/json
 }
  
 ###
-GET {{host}}/v1/json-store?v=2
+GET {{host}}/v1/json-store?v=1
 
 ###
 # JSON
-GET {{host}}/v1/json-store/64f6c7dd7fe013feb97f6b74
+GET {{host}}/v1/json-store/650801f44a24ab071efa5996
 
 
 ###
