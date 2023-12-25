@@ -1,0 +1,28 @@
+@host=http://localhost:4000
+# @host=https://node-app-tau.vercel.app/
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTI1OTU4NzgsInVzZXJJZCI6IjY0OTFjMjI2MGRlOTIyOGNhNmQ0ODMwZSIsImJ1c2luZXNzSWQiOm51bGx9.osuiiO86H99njcrBgKCroOw9uo46Ok0EkKlnCZUJRPk
+
+
+###
+# JSON endpoint
+POST {{host}}/v1/redis/123
+Content-Type: application/json
+
+{
+    "dataId" : "123123",
+    "jsonData" : "123123"
+}
+ 
+###
+GET {{host}}/v1/redis/123
+
+###
+# JSON
+GET {{host}}/v1/redis
+
+ 
+
+
+
+
+
