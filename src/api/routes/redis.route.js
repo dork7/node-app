@@ -1,5 +1,5 @@
 const express = require("express");
-const { getData, storeData } = require("../controllers/redis.controller");
+const { getData, storeData, publishData } = require("../controllers/redis.controller");
 
 const router = express.Router();
 
@@ -7,7 +7,10 @@ const router = express.Router();
  * @APIDesc - Get a User by userId
  */
 
+router.route("/publish").post(publishData);
+
 router.route("/:key").post(storeData);
+
 
 router.route("/:key").get(getData);
 

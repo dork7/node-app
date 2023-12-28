@@ -1,5 +1,5 @@
 const { success, error, info } = require("consola");
-const { redisClient } = require("../../config/redis");
+const { redisClient, publisher } = require("../../config/redis");
 
 
 exports.storeData = async (req, res, next) => {
@@ -18,6 +18,14 @@ exports.getData = async (req, res, next) => {
     const key = req.params.key;
     const val = await redisClient.get(key);
     res.json(JSON.parse(val));
+  } catch (error) {
+    return next(error);
+  }
+};
+
+exports.publishData = async (req, res, next) => {
+  try {
+     publisher.publish('PUBSUB_CHANNEL', JSON.stringify(req.body));
   } catch (error) {
     return next(error);
   }

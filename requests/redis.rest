@@ -10,9 +10,9 @@ Content-Type: application/json
 
 {
     "dataId" : "123123",
-    "jsonData" : "123123"
+    "jsonData" : "abc"
 }
- 
+  
 ###
 GET {{host}}/v1/redis/123
 
@@ -20,9 +20,11 @@ GET {{host}}/v1/redis/123
 # JSON
 GET {{host}}/v1/redis
 
- 
+###
+# JSON endpoint
+POST {{host}}/v1/redis/publish
+Content-Type: application/json
 
-
-
-
-
+{
+    "BroadcastingData" : "LOL THIS IS A BROADCAST"
+}
