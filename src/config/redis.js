@@ -38,7 +38,7 @@ subscriber.on('connect', () => {
   // Publish a message after a delay
   setTimeout(() => {
     // Use the publisher client to publish the message
-    publisher.publish('PUBSUB_CHANNEL', 'Hello, subscribers!');
+    publisher.publish('PUBSUB_CHANNEL', 'Channel working');
   }, 2000);
 
 })()

@@ -26,6 +26,8 @@ exports.getData = async (req, res, next) => {
 exports.publishData = async (req, res, next) => {
   try {
      publisher.publish('PUBSUB_CHANNEL', JSON.stringify(req.body));
+     res.json('OK');
+
   } catch (error) {
     return next(error);
   }

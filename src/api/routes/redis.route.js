@@ -1,5 +1,7 @@
 const express = require("express");
 const { getData, storeData, publishData } = require("../controllers/redis.controller");
+const { redisClient } = require("../../config/redis");
+const APIError = require("../utils/APIError");
 
 const router = express.Router();
 
@@ -7,12 +9,29 @@ const router = express.Router();
  * @APIDesc - Get a User by userId
  */
 
-router.route("/publish").post(publishData);
 
-router.route("/:key").post(storeData);
+/**
+ * Middle ware
+ */
+const checkIfRedisOnline = (req, res, next) => {
+  try {
+    if (!redisClient?.isReady) throw new APIError({
+      message: "Redis offline",
+      errors: "Redis offline",
+      isPublic: false,
+    })
+    next()
+  } catch (err) {
+    next(err)
+  }
+}
+
+router.route("/publish").post(checkIfRedisOnline, publishData);
+
+router.route("/:key").post(checkIfRedisOnline, storeData);
 
 
-router.route("/:key").get(getData);
+router.route("/:key").get(checkIfRedisOnline, getData);
 
 router.route("*").all((req, res) => {
   try {
@@ -21,5 +40,6 @@ router.route("*").all((req, res) => {
     res.send("error");
   }
 });
+
 
 module.exports = router;
