@@ -11,6 +11,7 @@ const smsRoute = require('./sms.route');
 const sseRoute = require('./sse.route');
 const redisRoute = require('./redis.route');
 const jsonRoute = require('./json.route');
+const TOTPVerification = require('./2fa.route');
 // const longPooling = require('./longPooling.route');
 const { authorize } = require('../middlewares/auth.middleware');
 const { graphqlHTTP } = require('express-graphql');
@@ -21,12 +22,12 @@ const httpStatus = require('http-status');
 /**
  * GET v1/status
  */
-router.get('/test', testingMiddleWare, async (req, res , next) => {
+router.get('/test', testingMiddleWare, async (req, res, next) => {
 
   const resToSend = await new Promise((resolve, reject) => {
     setTimeout(() => {
       const data = {
-        count: Math.random()*10,
+        count: Math.random() * 10,
         status: httpStatus.OK
       }
 
@@ -36,7 +37,7 @@ router.get('/test', testingMiddleWare, async (req, res , next) => {
 
 
   next()
- return res.send(resToSend);
+  return res.send(resToSend);
 }, testingMiddleWareAfter);
 
 router.get('/', (req, res, next) => {
@@ -58,6 +59,7 @@ router.use('/sms', smsRoute);
 router.use('/sse', sseRoute);
 router.use('/redis', redisRoute);
 router.use('/json-store', jsonRoute);
+router.use('/2fa', TOTPVerification);
 
 // router.use('/long-pooling', longPooling);
 
