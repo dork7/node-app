@@ -1,8 +1,10 @@
 
 const speakeasy = require('speakeasy');
-// const qrcode = require('qrcode');
+const qrcodeFile = require('qrcode');
 var qrcode = require('qrcode-terminal');
 const { redisClient } = require('../../../config/redis');
+const path = require('path');
+const { uploadImageOnCloudinary } = require('../../services/imageProvider');
 
 const REDIS_KEY = '2FA-KEYS'
 
@@ -10,25 +12,44 @@ exports.generateQRCode = async (req, res, next) => {
     try {
 
         const secret = speakeasy.generateSecret();
+
+
         let keys = JSON.parse(await redisClient.get(REDIS_KEY));
         if (!keys) { keys = [secret] } else {
             keys.push(secret)
         }
+
         redisClient.set(REDIS_KEY, JSON.stringify(keys));
 
 
+        qrcodeFile.toFile(
+            path.join(__dirname, 'qrcode.png'),
+            secret.otpauth_url,
+            { color: { dark: '#000', light: '#fff' } },
+            async (err) => {
 
-        qrcode.generate(secret.otpauth_url, function (qrcode, err) {
-            if (err) {
-                throw new APIError({
-                    message: "Unable to generate QR code",
-                    errors: "err",
-                    isPublic: true,
-                })
+                if (err) {
+                    return next(err);
+                }
+                let QR_IMG_URL = await uploadImageOnCloudinary([path.join(__dirname, 'qrcode.png')])
+                console.log('uploadResp', QR_IMG_URL[0].url)
+
+                qrcode.generate(secret.otpauth_url, function (qrcode, err) {
+                    if (err) {
+                        throw new APIError({
+                            message: "Unable to generate QR code",
+                            errors: "err",
+                            isPublic: true,
+                        })
+                    }
+                    console.log(qrcode);
+                    res.send({ message: "Generated", QR_IMG_URL: QR_IMG_URL[0].url });
+                });
+
             }
-            console.log(qrcode);
-            res.send({ message: "Generated" });
-        });
+        );
+
+
 
     } catch (error) {
         return next(error);

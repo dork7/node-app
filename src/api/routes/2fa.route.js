@@ -1,7 +1,8 @@
 const express = require('express');
 const {
-    verifyToken,generateQRCode
+    verifyToken, generateQRCode
 } = require('../controllers/2fa/2fa.controller');
+const { checkIfRedisOnline } = require('../middlewares/redis.middleware');
 
 const router = express.Router();
 
@@ -9,7 +10,7 @@ const router = express.Router();
  * @APIDesc -
  */
 
-router.route('/verifyToken').post(verifyToken);
-router.route('/generateQRCode').get(generateQRCode);
+router.route('/verifyToken').post(checkIfRedisOnline, verifyToken);
+router.route('/generateQRCode').get(checkIfRedisOnline, generateQRCode);
 
 module.exports = router;

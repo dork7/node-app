@@ -16,8 +16,6 @@ Content-Type: application/json
 GET {{host}}/v1/2fa/generateQRCode
 
  
-
-
-
-
-
+###Delete QR images stored in cloudinary
+###
+DELETE {{host}}/v1/image/dev
