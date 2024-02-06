@@ -7,6 +7,7 @@ cloudinary.config({
 });
 
 exports.uploadImageOnCloudinary = async (imagePaths, user = "dev") => {
+  console.log('imagePaths', imagePaths)
   const response = await imagePaths?.map(async (path) => {
     return cloudinary.uploader.upload(path, {
       folder: `node-app/${user}`, // Use the user's identifier as a folder name
