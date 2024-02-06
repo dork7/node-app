@@ -1,13 +1,14 @@
 // make bluebird default Promise
 Promise = require('bluebird'); // eslint-disable-line no-global-assign
-const { port, env } = require('./config/vars');
+const { port, env, redisHost, redisPort } = require('./config/vars');
 const logger = require('./config/logger');
 const app = require('./config/express');
 const mongoose = require('./config/mongoose');
 const { success, error } = require('consola');
 const fileUpload = require('express-fileupload');
 const color = require('colors');
-const { redisClient } = require('./config/redis');
+const { redisClient, publisher, subscriber } = require('./config/redis');
+const redis = require('redis');
 
 // open mongoose connection
 mongoose.connect();
@@ -16,8 +17,17 @@ mongoose.connect();
 
 if (process.env.NODE_ENV === "development.local") {
   redisClient.connect();
+
+
+  publisher.connect()
+  subscriber.connect()
+
   redisClient.on('error', (err) => {
     console.error('Redis Client Error', err);
+  });
+
+  redisClient.on('connect', () => {
+    console.log('Connected to Redis server');
   });
 }
 

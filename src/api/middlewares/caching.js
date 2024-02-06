@@ -14,7 +14,7 @@ exports.cachingMiddleWare = async (req, res, next) => {
         if (cachedResp) {
             res.setHeader('isCached', true);
             // res.setHeader('content-type', 'application/json');
-            console.log(res)
+            // console.log(res)
             return res.status(200).send(cachedResp);
         }
 

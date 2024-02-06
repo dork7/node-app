@@ -34,17 +34,17 @@ services:
     depends_on:
       - db
 
-  redis:
-    image: redis
-    container_name: redis-container
-    restart: always
-    ports:
-      - '6379:6379'
+  # redis:
+  #   image: redis
+  #   container_name: redis-container
+  #   restart: always
+  #   ports:
+  #     - '6379:6379'
 
-  redis-ui:
-    image: redislabs/redisinsight
-    container_name: redisinsight-ui
-    restart: always
-    ports:
-      - '8001:8001'
+  # redis-ui:
+  #   image: redislabs/redisinsight
+  #   container_name: redisinsight-ui
+  #   restart: always
+  #   ports:
+  #     - '8001:8001'
  
