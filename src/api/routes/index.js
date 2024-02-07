@@ -12,7 +12,7 @@ const sseRoute = require('./sse.route');
 const redisRoute = require('./redis.route');
 const jsonRoute = require('./json.route');
 const TOTPVerification = require('./2fa.route');
-// const longPooling = require('./longPooling.route');
+const longPooling = require('./longPooling.route');
 const { authorize } = require('../middlewares/auth.middleware');
 const { graphqlHTTP } = require('express-graphql');
 
@@ -61,7 +61,7 @@ router.use('/redis', redisRoute);
 router.use('/json-store', jsonRoute);
 router.use('/2fa', TOTPVerification);
 
-// router.use('/long-pooling', longPooling);
+router.use('/long-pooling', longPooling);
 
 router.use(
   '/graphql',
